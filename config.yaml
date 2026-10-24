@@ -1,0 +1,34 @@
+# FCL (Funding-Crowding Long/Short) - paper test di HYPE.
+# Spec riset: C:\Crypto data\backtest data and more\alpha_20261024 (fcl.py, laporan Alpha Hunt 20261024).
+# Mengubah angka strategi = strategi baru; backtest ulang dulu.
+
+strategy:
+  funding_days: 14            # F14: jumlah funding Binance 14 hari
+  min_coverage: 0.70          # coin butuh >= 70% jam funding 14 hari tercatat
+  universe_top: 50            # top-50 menurut median volume USD 30 hari (candle HYPE)
+  min_history_days: 60        # coin harus sudah trading di HYPE >= 60 hari
+  volume_days: 30
+  mom_days: 14
+  mom_skip_pct: 0.90          # short TIDAK boleh koin dengan return 14 hari di 10% teratas
+  slot_usd: 12.5              # k per sisi = floor(ekuitas * gross / 2 / slot)
+  k_min: 4
+  gross: 1.0                  # +50% long, -50% short (dollar-neutral)
+  stop_pct: 0.40              # short ditutup kalau harga >= entry * 1,40
+  stop_slip: 0.005
+
+paper:
+  equity0: 200.0
+  cost_per_side: 0.00065      # taker HYPE 0,045% + slippage 0,02%
+  min_order_usd: 10.0
+
+schedule:
+  # Rebalance harian 08:20 UTC = 15:20 WIB (alasan: README "Kenapa 15:20 WIB").
+  rebalance_utc: "08:20"
+  snapshot_lead_min: 5        # watcher bangun 5 menit sebelum settlement Binance (tiap 4 jam)
+
+hype:
+  info_url: "https://api.hyperliquid.xyz/info"
+  weight_per_minute: 1000
+
+bootstrap:
+  archive_url: "https://data.binance.vision/data/futures/um/daily/premiumIndexKlines"

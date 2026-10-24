@@ -1,0 +1,5 @@
+# Sama dengan RNT (terbukti jalan di runner GitHub, Python 3.11, ubuntu-24.04).
+numpy==2.4.6
+pandas==3.0.5
+requests==2.34.2
+PyYAML==6.0.3

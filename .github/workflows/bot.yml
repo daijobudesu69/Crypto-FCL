@@ -1,0 +1,107 @@
+name: FCL bot
+
+# Pola watcher dari RNT/MEX: cron GitHub tidak andal (sering telat berjam-jam), jadi cron
+# hanya MENYALAKAN watcher yang hidup ~5,5 jam dan mengecek sendiri tiap 10 menit. Saat
+# anggaran waktunya habis, watcher menyalakan penggantinya sendiri (antre di concurrency
+# group). Cron dan watchdog tetap ada sebagai cadangan.
+#
+# Tiap siklus: rekam funding Binance (predictedFundings HYPE), mark buku paper, cek stop,
+# funding HYPE, dan rebalance harian sekali per hari mulai 08:20 UTC (15:20 WIB).
+# Watcher juga bangun tepat 5 menit sebelum tiap settlement Binance (00/04/08/12/16/20 UTC)
+# supaya snapshot funding yang direkam hampir final.
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "once = satu siklus lalu selesai; loop = pantau ~5,5 jam"
+        type: choice
+        options: [once, loop]
+        default: once
+
+permissions:
+  contents: write
+  actions: write      # dispatch watcher pengganti (gh workflow run bot.yml)
+
+concurrency:
+  group: fcl-state
+  cancel-in-progress: false
+
+jobs:
+  bot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Watcher
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FCL_QUIET_IDLE: "1"
+          MODE: ${{ inputs.mode || 'loop' }}
+          GH_TOKEN_IN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -uo pipefail
+          gh_token="${GH_TOKEN_IN:-}"
+          unset GH_TOKEN_IN
+          chain=0
+          INTERVAL=600
+          CYCLE_BUDGET=$(( 900 + 30 + 120 ))
+          DEADLINE=$(( $(date +%s) + 340*60 - CYCLE_BUDGET ))
+          REB=$(( 8*3600 + 20*60 + 10 ))     # 08:20:10 UTC
+          worst=0
+          n=0
+          echo "[watch] mode=${MODE} interval=${INTERVAL}s"
+          while :; do
+            n=$((n + 1))
+            echo "::group::siklus #${n} — $(date -u '+%Y-%m-%d %H:%M:%SZ')"
+            bash tools/refresh_state.sh || true
+            # Semua perintah di loop ini harus `|| rc=$?`: step berjalan dengan bash -e.
+            rc=0
+            timeout -k 30 900 python run_cycle.py || rc=$?
+            if [ "$rc" -gt "$worst" ]; then worst=$rc; fi
+            if ! bash tools/save_state.sh "state: $(date -u +%Y-%m-%dT%H:%MZ)"; then
+              echo "[watch] save_state gagal"
+              worst=1
+            fi
+            echo "::endgroup::"
+            if [ "${MODE}" = "once" ]; then break; fi
+            now=$(date +%s)
+            # bangun 5 menit sebelum settlement Binance berikutnya (kelipatan 4 jam)...
+            due=$(( (now / 14400 + 1) * 14400 - 300 ))
+            if [ "$due" -le "$now" ]; then due=$(( due + 14400 )); fi
+            # ...atau tepat saat jadwal rebalance harian, mana yang lebih dulu
+            day0=$(( now / 86400 * 86400 ))
+            reb=$(( day0 + REB ))
+            if [ "$reb" -le "$now" ]; then reb=$(( reb + 86400 )); fi
+            if [ "$reb" -lt "$due" ]; then due=$reb; fi
+            nap=$INTERVAL
+            if [ $(( due - now )) -lt "$nap" ]; then nap=$(( due - now )); fi
+            if [ $(( now + nap )) -ge "$DEADLINE" ]; then
+              echo "[watch] anggaran waktu habis"
+              chain=1
+              break
+            fi
+            echo "[watch] cek berikutnya dalam ${nap}s"
+            sleep "$nap"
+          done
+          if [ "${MODE}" = "loop" ] && [ "$chain" = "1" ]; then
+            if GH_TOKEN="$gh_token" gh workflow run bot.yml --repo "$GITHUB_REPOSITORY" --ref "${GITHUB_REF_NAME:-main}" -f mode=loop; then
+              echo "[watch] watcher pengganti dinyalakan (antre, mulai begitu job ini selesai)"
+            else
+              echo "::warning::gagal menyalakan watcher pengganti; menunggu cron/watchdog"
+            fi
+          fi
+          echo "[watch] selesai setelah ${n} siklus (exit ${worst})"
+          exit "$worst"

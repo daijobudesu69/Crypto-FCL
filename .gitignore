@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.env
+*.log
+# salinan origin:control/bot.yaml yang ditulis tools/refresh_state.sh
+.fcl_control_origin.yaml
+.fcl_control_origin.yaml.tmp
+state/.tmp_*

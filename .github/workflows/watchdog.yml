@@ -1,0 +1,42 @@
+name: FCL watchdog
+
+# Alarm kalau watcher (bot.yml) tidak mencatat > 90 menit, dan nyalakan watcher baru kalau
+# tidak ada yang jalan. Menit menjauhi :00, slot bot.yml (7,37) dan slot RNT.
+on:
+  schedule:
+    - cron: "13,28,43,58 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: fcl-watchdog
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Cek watcher
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash tools/refresh_state.sh || true
+          timeout -k 30 300 python run_watchdog.py
+      - name: Simpan state watchdog
+        if: always()
+        run: |
+          bash tools/save_state.sh "watchdog: $(date -u +%Y-%m-%dT%H:%MZ)"

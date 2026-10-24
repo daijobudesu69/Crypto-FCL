@@ -1,0 +1,7 @@
+# Kendali bot FCL. Dibaca watcher SETIAP siklus (~10 menit).
+# Ubah lewat workflow (PowerShell / CMD / Git Bash):
+#   gh workflow run control.yml -f mode=paper
+#   gh workflow run control.yml -f mode=off
+#
+# mode: off | paper   (live/manage/flatten menyusul setelah wallet HYPE siap)
+mode: "paper"
