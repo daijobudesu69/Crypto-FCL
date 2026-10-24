@@ -31,4 +31,6 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
       - run: python tools/bootstrap_funding.py --days "${{ inputs.days }}"
-      - run: bash tools/save_state.sh "bootstrap funding: $(date -u +%Y-%m-%dT%H:%MZ)"
+      - name: Simpan ledger
+        run: |
+          bash tools/save_state.sh "bootstrap funding $(date -u +%Y-%m-%dT%H:%MZ)"
