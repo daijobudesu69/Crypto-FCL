@@ -37,6 +37,9 @@ def send_now(text: str) -> bool:
     chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
     if not (token and chat):
         print("[notify] Telegram belum dikonfigurasi — pesan tidak dikirim:\n" + text + "\n")
+        if os.environ.get("GITHUB_ACTIONS") == "true":
+            # Tanpa Telegram, pesan minimal muncul sebagai anotasi di ringkasan run Actions.
+            print(f"::notice title=FCL (Telegram belum diisi)::{annotation(text)}")
         return True                       # tidak ada yang perlu dicoba ulang
     try:
         r = _post(token, chat, text[:4000], html_mode=True)
@@ -70,6 +73,11 @@ def _post(token: str, chat: str, text: str, html_mode: bool):
 def plain(text: str) -> str:
     """HTML Telegram -> teks biasa (tag dibuang, entitas dikembalikan)."""
     return html.unescape(re.sub(r"<[^>]+>", "", text))
+
+
+def annotation(text: str) -> str:
+    """Teks pesan untuk workflow command GitHub (::notice::); %, CR, LF wajib di-escape."""
+    return plain(text)[:1000].replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
 
 
 class Outbox:

@@ -111,3 +111,120 @@ def test_control_reserved_modes_fall_back_to_paper(tmp_path):
     p.write_text('mode: "live"\n')
     c = control.read((str(p),))
     assert c.mode == "paper" and c.problem
+
+
+# ---------------------------------------------------------------- infra: feed funding, delisting, candle
+def _cycle_setup(now, n=30):
+    cfg = config.load()
+    coins = sorted(cfg.coins)[:n]
+    cfg.coins = {c: cfg.coins[c] for c in coins}
+    for i, c in enumerate(coins):
+        for d in range(42):
+            t = int((now - dt.timedelta(hours=8 * d + 1)).timestamp() * 1000)
+            store.append("funding_ledger", {"settle_utc": ledger.iso(t), "settle_ms": t, "coin": c, "rate": i * 1e-5,
+                                            "interval_h": 8, "source": "bootstrap", "seen_utc": ""})
+    pf = {c: {"rate": 1e-4, "next_ms": int(now.timestamp() * 1000) + 3_600_000, "interval_h": 8} for c in coins}
+    return cfg, coins, pf
+
+
+def _ctx(cfg, info, now):
+    return jobs.Ctx(cfg=cfg, info=info, ctrl=control.Control(), outbox=notify.Outbox(now), now=now)
+
+
+def _texts(ctx):
+    return " ".join(it["text"] for it in ctx.outbox.items)
+
+
+def test_funding_failure_does_not_block_mark_and_stops():
+    now = dt.datetime(2026, 10, 24, 10, 0, tzinfo=UTC)
+    cfg = config.load()
+    st = paper.load(200.0)
+    paper.rebalance(st, {"A": 0.25, "B": -0.25}, {"A": 10.0, "B": 20.0}, 0.00065, 10.0, now)
+    st["last_rebalance_day"] = "2026-10-24"
+    paper.save(st)
+    info = FakeInfo(["A", "B"], mids={"A": 10.0, "B": 28.5}, pf=RuntimeError("HYPE /info predictedFundings gagal"))
+    ctx = _ctx(cfg, info, now)
+    out = jobs.run(ctx)                                                     # tidak raise
+    st = store.load_json("paper.json")
+    assert "B" not in st["positions"] and st["banned"] == ["B"]             # stop tetap jalan
+    assert out["errors"] == [] and out["snapshot"] is None                   # satu kali gagal belum error
+    assert store.load_json("feed.json")["down_since"]
+
+
+def test_feed_down_alerts_fills_from_archive_and_backfills_after_recovery(monkeypatch):
+    from fclbot import bootstrap
+    calls = []
+
+    def fake_premium(base, sym, day, session=None):
+        calls.append((sym, day))
+        t0 = int(dt.datetime(day.year, day.month, day.day, tzinfo=UTC).timestamp() * 1000)
+        return {t0 + h * 3_600_000: 0.0002 for h in range(24)}
+
+    monkeypatch.setattr(bootstrap, "premium", fake_premium)
+    now = dt.datetime(2026, 10, 24, 6, 0, tzinfo=UTC)
+    cfg, coins, pf = _cycle_setup(now)
+    store.save_json("feed.json", {"ok_utc": "2026-10-23T20:00:00+00:00"})
+    info = FakeInfo(coins, pf={})                                            # respons ada, BinPerp hilang
+    ctx = _ctx(cfg, info, now)
+    out = jobs.run(ctx)
+    assert "tidak masuk" in _texts(ctx) and any("feed BinPerp" in e for e in out["errors"])
+    fd = store.load_json("feed.json")
+    assert fd["archive_days"] == ["2026-10-23"]                              # hari ini belum terbit
+    new = [r for r in store.read("funding_ledger") if r["seen_utc"] == now.isoformat(timespec="seconds")]
+    assert new and all(r["source"] == "bootstrap" and r["settle_utc"] >= "2026-10-23" for r in new)
+    n_calls = len(calls)
+    jobs.run(_ctx(cfg, info, now + dt.timedelta(minutes=10)))
+    assert len(calls) == n_calls                                             # maks tiap 6 jam
+
+    rec = now + dt.timedelta(minutes=30)
+    info.pf = pf
+    ctx = _ctx(cfg, info, rec)
+    assert jobs.run(ctx)["errors"] == []
+    assert "masuk lagi" in _texts(ctx)
+    fd = store.load_json("feed.json")
+    assert "down_since" not in fd and fd["backfill"]["since"] == "2026-10-23T20:00:00+00:00"
+
+    nxt = dt.datetime(2026, 10, 25, 1, 0, tzinfo=UTC)                         # arsip 24 Okt sudah terbit
+    jobs.run(_ctx(cfg, info, nxt))
+    fd = store.load_json("feed.json")
+    assert "2026-10-24" in fd["archive_days"] and "backfill" not in fd
+    assert {d for _, d in calls[n_calls:]} == {dt.date(2026, 10, 24)}
+
+
+def test_stale_candles_are_excluded_from_universe():
+    coins = [f"C{i:02d}" for i in range(30)]
+    cs = {c: candles(seed=i, vol=1e6 * (30 - i)) for i, c in enumerate(coins)}
+    cs["C00"] = candles(seed=0, vol=1e9, end="2026-10-20")                  # berhenti trading 4 hari lalu
+    u = strategy.universe(cs, {c: (i * 0.001, 1.0) for i, c in enumerate(coins)}, P)
+    assert "C00" not in set(u["coin"]) and len(u) == 29
+
+
+def test_position_missing_from_mids_is_closed_after_three_cycles():
+    now = dt.datetime(2026, 10, 24, 8, 20, tzinfo=UTC)
+    st = paper.load(200.0)
+    paper.rebalance(st, {"X": 0.25, "Y": -0.25}, {"X": 10.0, "Y": 20.0}, 0.0, 10.0, now)
+    mids = {f"M{i}": 1.0 for i in range(60)} | {"Y": 20.0}
+    assert paper.close_missing(st, {"Y": 20.0}, 0.0, now) == []                # allMids tidak lengkap: abaikan
+    assert paper.close_missing(st, mids, 0.0, now) == [] and paper.close_missing(st, mids, 0.0, now) == []
+    assert paper.close_missing(st, mids, 0.0, now) == ["X"]
+    assert set(st["positions"]) == {"Y"} and store.read("orders")[-1]["kind"] == "close"
+
+
+def test_rebalance_postponed_when_many_candles_fail():
+    now = dt.datetime(2026, 10, 24, 8, 25, tzinfo=UTC)
+    cfg, coins, pf = _cycle_setup(now)
+    info = FakeInfo(coins, pf=pf, fail=coins[:4])                            # 4/30 > 10%
+    ctx = _ctx(cfg, info, now)
+    assert jobs.run(ctx)["daily"] is False and "ditunda" in _texts(ctx)
+    assert store.load_json("paper.json")["positions"] == {}
+    ctx = _ctx(cfg, info, now.replace(hour=12, minute=30))                   # > 4 jam: jalan dengan data yang ada
+    assert jobs.run(ctx)["daily"] is True
+    assert len(store.load_json("paper.json")["positions"]) == 16 and "candle gagal 4" in _texts(ctx)
+
+
+def test_notify_without_telegram_writes_actions_annotation(monkeypatch, capsys):
+    monkeypatch.delenv("TELEGRAM_BOT_TOKEN", raising=False)
+    monkeypatch.setenv("GITHUB_ACTIONS", "true")
+    assert notify.send_now("🚨 <b>FCL</b> 50% putus\nbaris dua")
+    line = [x for x in capsys.readouterr().out.splitlines() if x.startswith("::notice")][0]
+    assert line.endswith("::🚨 FCL 50%25 putus%0Abaris dua")

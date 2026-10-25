@@ -95,6 +95,31 @@ def stops(st: dict, mids: dict, p: dict, cost: float, now: dt.datetime) -> list:
     return hit
 
 
+MISSING_CYCLES = 3      # ~30 menit berturut-turut tidak ada di allMids
+MIN_MIDS = 50           # respons allMids lebih kecil dari ini dianggap tidak lengkap
+
+
+def close_missing(st: dict, mids: dict, cost: float, now: dt.datetime) -> list:
+    """Tutup posisi yang koinnya hilang dari allMids (delisting HYPE) di harga terakhir.
+
+    Tanpa ini posisi itu beku: mark() dan rebalance() melewati koin tanpa harga."""
+    if len(mids) < MIN_MIDS:
+        return []
+    closed = []
+    for coin, pos in list(st["positions"].items()):
+        if coin in mids:
+            pos.pop("missing", None)
+            continue
+        pos["missing"] = pos.get("missing", 0) + 1
+        if pos["missing"] < MISSING_CYCLES:
+            continue
+        _fill(st, now.date().isoformat(), coin, -pos["qty"], pos["last_px"], "close",
+              "hilang dari HYPE (delisting?), ditutup di harga terakhir", cost, now)
+        del st["positions"][coin]
+        closed.append(coin)
+    return closed
+
+
 def rebalance(st: dict, weights: dict, mids: dict, cost: float, min_order: float, now: dt.datetime) -> int:
     day = now.date().isoformat()
     eq = st["equity"]

@@ -11,19 +11,26 @@ def candles(n_days=80, end="2026-10-24", drift=0.0, vol=1e6, seed=0):
 
 
 class FakeInfo:
-    def __init__(self, coins, mids=None, pf=None, fh=None):
+    """pf=Exception -> predicted_fundings() raise; fail = koin yang candle-nya raise."""
+
+    def __init__(self, coins, mids=None, pf=None, fh=None, fail=()):
         self.coins = coins
         self.mids = mids or {c: 100.0 for c in coins}
         self.pf = pf or {}
         self.fh = fh or {}
+        self.fail = set(fail)
 
     def predicted_fundings(self):
+        if isinstance(self.pf, Exception):
+            raise self.pf
         return self.pf
 
     def all_mids(self):
         return dict(self.mids)
 
     def candles(self, coin, interval, start_ms):
+        if coin in self.fail:
+            raise RuntimeError("HYPE /info candleSnapshot gagal")
         i = self.coins.index(coin)
         return candles(seed=i, vol=1e6 * (len(self.coins) - i))
 

@@ -68,6 +68,16 @@ ci.yml         tes offline
 - Validasi September 2026: korelasi 0,94 dengan funding asli.
 - Baris `bootstrap` otomatis tergantikan oleh rekaman bot (`predicted`). Setelah 14 hari, sinyal 100% dari rekaman bot.
 
+**Kalau HYPE berhenti memberi funding Binance** (`predictedFundings` error atau `BinPerp` hilang untuk > 50% koin):
+- Mark harga, stop short, dan funding HYPE tetap jalan; satu kali gagal hanya dicatat di log.
+- Putus ≥ 8 jam: alarm (tiap 6 jam), siklus dihitung error (run Actions merah), dan ledger diisi otomatis dari arsip premium index Binance (`fclbot/bootstrap.py`, tiap 6 jam, maks 5 hari per percobaan). Arsip satu hari baru terbit 1–2 hari kemudian, jadi beberapa hari terakhir F14 bolong; syarat cakupan 70% menahan celah ±4 hari.
+- Setelah feed pulih, celahnya tetap diisi dari arsip begitu terbit (`state/feed.json` → `backfill`).
+- Celah > 15 hari: `gh workflow run bootstrap.yml -f days=16`.
+
+**Pengaman data lain:** koin yang candle terakhirnya lebih tua dari koin lain (delisting HYPE) tidak masuk universe. Posisi yang koinnya hilang dari `allMids` 3 siklus berturut-turut ditutup di harga terakhir. Kalau > 10% candle gagal diambil, rebalance ditunda ke siklus berikutnya, paling lama 4 jam setelah jadwal.
+
+**Tanpa Telegram,** setiap pesan juga muncul sebagai anotasi `::notice` di ringkasan run Actions.
+
 ## Perbedaan dengan backtest (diketahui, disengaja)
 
 | Hal | Backtest | Bot |

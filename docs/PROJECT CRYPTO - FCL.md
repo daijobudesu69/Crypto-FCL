@@ -338,9 +338,10 @@ fclbot/
   config.py            baca config.yaml + coins.csv
   hype.py              klien /info HYPE (salinan RNT + predicted_fundings), token bucket 1000 weight/menit
   ledger.py            rekam snapshot -> funding_ledger.csv, F14, pangkas 40 hari
-  strategy.py          universe, sinyal, pemilihan long/short, k
-  paper.py             buku paper: mark, funding HYPE, stop, rebalance
-  jobs.py              orkestrasi siklus + pesan Telegram harian
+  strategy.py          universe (tanpa koin candle basi), sinyal, pemilihan long/short, k
+  paper.py             buku paper: mark, funding HYPE, stop, tutup koin delisting, rebalance
+  jobs.py              orkestrasi siklus, pantau feed BinPerp (state/feed.json), tunda rebalance kalau candle gagal
+  bootstrap.py         rekonstruksi funding dari arsip premium index Binance (manual + cadangan otomatis)
   store.py             JSON atomik + CSV append (salinan RNT, tanpa Sheets)
   notify.py            Telegram + outbox (salinan RNT)
   control.py           mode
@@ -354,7 +355,7 @@ tools/
   control.yml    manual: mode
   bootstrap.yml  manual: isi ulang ledger
   ci.yml         pytest saat push (kecuali state/, md, research/)
-tests/           9 tes offline (FakeInfo)
+tests/           15 tes offline (FakeInfo)
 research/        arsip riset (tanpa cache/parquet besar) + 2 laporan
 docs/            dokumen ini
 state/           ditulis bot (lihat state/README.md)
@@ -427,7 +428,9 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 |---|---|---|
 | Watcher mati / runs.csv basi | `state/runs.csv` (baris terakhir), Actions → FCL bot | Watchdog menyalakan watcher otomatis. Manual: `gh workflow run bot.yml --repo daijobudesu69/Crypto-FCL -f mode=loop` |
 | Run "cancelled" di daftar Actions | Normal: concurrency group `fcl-state` hanya menyimpan 1 run antre; yang antre lebih lama dibatalkan | Tidak perlu tindakan selama ada run `in_progress` |
-| Tidak ada baris `predicted` baru | `state/funding_pending.json` (`seen_utc` terbaru), log siklus | Cek API: `predictedFundings` masih memuat `BinPerp`? Kalau format berubah, perbaiki `hype.predicted_fundings` |
+| Tidak ada baris `predicted` baru | `state/funding_pending.json` (`seen_utc` terbaru), `state/feed.json` (`down_since`), log siklus | Cek API: `predictedFundings` masih memuat `BinPerp`? Kalau format berubah, perbaiki `hype.predicted_fundings`. Sejak 25 Okt 2026: putus ≥ 8 jam → alarm + isi otomatis dari arsip Binance (`fclbot/bootstrap.py`); mark dan stop tetap jalan |
+| "rebalance ditunda" | Log `[daily] ditunda`: > 10% candle gagal | Dicoba ulang tiap siklus; > 4 jam setelah jadwal jalan dengan data yang ada |
+| Posisi "hilang dari HYPE" ditutup | Koin tidak ada di `allMids` 3 siklus (delisting) | Ditutup di harga terakhir; cek pengumuman HYPE untuk harga settlement sebenarnya |
 | Cakupan F14 < 70% (koin hilang dari universe) | `state/targets.csv` kolom `coverage` | Kalau bot mati > 3 hari: `gh workflow run bootstrap.yml -f days=16` (baris yang ada tidak ditimpa) |
 | Rebalance tidak terjadi | `paper.json` → `last_rebalance_day`; log `[daily]` | `rebalance_due` butuh `now ≥ 08:20 UTC`. Kalau terlewat, siklus berikutnya mengejar di hari yang sama |
 | "universe N < 12: flat" | Banyak candle/funding gagal | Cek error 429/HTTP di log; `hype.InfoClient` retry 6×. Siklus berikutnya mengulang |
@@ -436,7 +439,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 | UnicodeEncodeError di Windows | Konsol cp1252 vs emoji | Sudah diatasi dengan `sys.stdout.reconfigure(utf-8)` di run_*.py |
 | Workflow gagal "workflow file issue" | YAML: `- run: ... "teks: ..."` (titik dua + spasi di scalar polos) | Pakai blok `run: \|` (bug ini sudah terjadi dan diperbaiki di bootstrap.yml) |
 | Mode live tidak berjalan | `control.py` memetakan live/manage/flatten ke paper + peringatan | Wallet belum dipasang (lihat §13) |
-| Telegram tidak terkirim | Secret kosong → pesan hanya dicetak di log | Isi secret `TELEGRAM_BOT_TOKEN` dan `TELEGRAM_CHAT_ID` di repo |
+| Telegram tidak terkirim | Secret kosong → pesan dicetak di log dan jadi anotasi `::notice` di ringkasan run | Isi secret `TELEGRAM_BOT_TOKEN` dan `TELEGRAM_CHAT_ID` di repo |
 | Ingin cek cepat | `python run_status.py` (setelah `git pull`) | — |
 | Ingin uji tanpa menyentuh state | `FCL_STATE_DIR=<folder sementara> python run_cycle.py` (salin `funding_ledger.csv` dulu) | — |
 

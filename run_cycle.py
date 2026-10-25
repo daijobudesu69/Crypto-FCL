@@ -38,6 +38,7 @@ def main(now: dt.datetime | None = None, info=None) -> int:
     res = {}
     try:
         res = jobs.run(ctx)
+        errors += res.get("errors", [])       # gangguan yang tidak menghentikan siklus (feed funding)
     except Exception as e:  # noqa: BLE001
         traceback.print_exc()
         msg = f"{type(e).__name__}: {str(e)[:200]}"

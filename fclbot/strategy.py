@@ -31,9 +31,15 @@ class Book:
 
 
 def universe(candles: dict, f14: dict, p: dict) -> pd.DataFrame:
+    # Koin yang candle terakhirnya lebih tua dari candle terbaru koin lain sudah berhenti trading
+    # di HYPE (delisting): backtest juga hanya memilih koin yang punya harga di hari t.
+    fresh = max((df["ts"].iloc[-1] for df in candles.values()
+                 if df is not None and not df.empty and "ts" in df), default=None)
     rows = []
     for coin, df in candles.items():
         if df is None or df.empty:
+            continue
+        if fresh is not None and "ts" in df and df["ts"].iloc[-1] < fresh:
             continue
         traded = df[df["volume"] > 0]
         if len(traded) < p["min_history_days"]:
