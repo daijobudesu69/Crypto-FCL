@@ -245,7 +245,7 @@ def _daily(ctx: Ctx, st: dict) -> bool:
         warn.append(f"candle gagal {len(failed)} koin: {', '.join(failed[:10])}")
     ctx.outbox.add(
         f"🧮 <b>FCL paper — rebalance {notify.wib(now)}</b>\n"
-        f"💸 PnL: <b>{snap['equity'] - st['equity0']:+,.2f}</b> USD ({notify.pct(ret)}), DD {snap['dd_pct']:.1f}%\n\n"
+        f"💸 PnL: <b>{notify.usd(snap['equity'])}</b> USD ({notify.pct(ret)}), DD {snap['dd_pct']:.1f}%\n\n"
         f"🟢 Long: {notify.esc(', '.join(longs) or '-')}\n"
         f"🔴 Short: {notify.esc(', '.join(shorts) or '-')}\n\n"
         f"Fee kumulatif {notify.usd(snap['fees_cum'])}, funding {notify.usd(snap['funding_cum'])}\n"
