@@ -1,0 +1,120 @@
+{
+ "n_symbols": 776,
+ "n_dead": 7,
+ "period": [
+  "2024-08-01",
+  "2026-07-31"
+ ],
+ "all_incl_delisted|tercile": {
+  "sharpe": 1.6,
+  "total": 1.482,
+  "maxdd": -0.167,
+  "yearly": {
+   "2024": 0.288,
+   "2025": 0.243,
+   "2026": 0.55
+  },
+  "share_short_dead": 0.003,
+  "share_long_dead": 0.005,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "all_incl_delisted|k8": {
+  "sharpe": 1.33,
+  "total": 2.199,
+  "maxdd": -0.272,
+  "yearly": {
+   "2024": 0.386,
+   "2025": 0.538,
+   "2026": 0.501
+  },
+  "share_short_dead": 0.004,
+  "share_long_dead": 0.006,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "alive_today_150_only|tercile": {
+  "sharpe": 2.25,
+  "total": 1.206,
+  "maxdd": -0.139,
+  "yearly": {
+   "2024": 0.253,
+   "2025": 0.421,
+   "2026": 0.24
+  },
+  "share_short_dead": 0.0,
+  "share_long_dead": 0.0,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "alive_today_150_only|k8": {
+  "sharpe": 2.01,
+  "total": 2.18,
+  "maxdd": -0.232,
+  "yearly": {
+   "2024": 0.33,
+   "2025": 0.779,
+   "2026": 0.344
+  },
+  "share_short_dead": 0.0,
+  "share_long_dead": 0.0,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "hype_listed_only|tercile": {
+  "sharpe": 2.39,
+  "total": 0.878,
+  "maxdd": -0.089,
+  "yearly": {
+   "2024": 0.25,
+   "2025": 0.411,
+   "2026": 0.065
+  },
+  "share_short_dead": 0.0,
+  "share_long_dead": 0.0,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "hype_listed_only|k8": {
+  "sharpe": 1.95,
+  "total": 1.135,
+  "maxdd": -0.162,
+  "yearly": {
+   "2024": 0.329,
+   "2025": 0.729,
+   "2026": -0.071
+  },
+  "share_short_dead": 0.0,
+  "share_long_dead": 0.0,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "all_minus_hype_coin|tercile": {
+  "sharpe": 1.68,
+  "total": 1.64,
+  "maxdd": -0.167,
+  "yearly": {
+   "2024": 0.288,
+   "2025": 0.254,
+   "2026": 0.634
+  },
+  "share_short_dead": 0.003,
+  "share_long_dead": 0.005,
+  "days": 699,
+  "start": "2024-08-31"
+ },
+ "all_minus_hype_coin|k8": {
+  "sharpe": 1.2,
+  "total": 1.713,
+  "maxdd": -0.281,
+  "yearly": {
+   "2024": 0.386,
+   "2025": 0.401,
+   "2026": 0.397
+  },
+  "share_short_dead": 0.004,
+  "share_long_dead": 0.006,
+  "days": 699,
+  "start": "2024-08-31"
+ }
+}

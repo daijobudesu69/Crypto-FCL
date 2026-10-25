@@ -269,6 +269,32 @@ Jarque-Bera p < 0,001 untuk semua. Ekor kiri FCL paling tipis.
 
 Permutasi versi pertama (koin acak diacak ulang tiap hari) ternyata **tidak adil**: turnovernya jauh lebih besar, sehingga null-nya terlalu mudah dikalahkan. Versi yang dipakai mengacak pasangan sinyal→koin sekali per run (`stats/perm_fair.py`), jadi turnover dan biayanya sama.
 
+### Uji survivorship dengan koin delisting (25 Okt 2026)
+
+Sumber: repo user **Crypto-Funding-Strategy** (https://github.com/daijobudesu69/Crypto-Funding-Strategy). Salinan lokal ada di `C:\Crypto data 2`, dan panelnya `C:\Crypto data 2\data\panel.parquet`:
+- 776 perp USDT Binance, **termasuk yang sudah delisting**;
+- harian 2024-08 → 2026-07;
+- kolom `close_t`, `adv_usd_30`, `funding_24h_sum` (settled Binance).
+
+Skrip: `research/alpha_20261024/stats/fcl_survivorship_cds2.py`. FCL inti (tanpa stop), universe top-50 menurut ADV 30 hari point-in-time, biaya 0,065%/sisi + funding.
+
+| Universe kandidat | Tercile Sharpe / MaxDD | k = 8 Sharpe / MaxDD |
+|---|---|---|
+| **Semua 776 termasuk delisting** | **1,60 / −17%** | **1,33 / −27%** |
+| Semua tanpa koin HYPE | 1,68 / −17% | 1,20 / −28% |
+| Hanya 150 koin yang hidup sekarang (seperti data lake) | 2,25 / −14% | 2,01 / −23% |
+| Hanya koin HYPE (92) | 2,39 / −9% | 1,95 / −16% (2026 YTD −7%) |
+
+Kesimpulan:
+- **Edge tetap ada** dengan koin mati di dalam data.
+- Koin yang kemudian delisting hanya ±0,5% dari posisi, karena universe top-50 likuid jarang memuatnya. Jadi survivorship bias *langsung* untuk FCL kecil.
+- Turunnya Sharpe (2,25 → 1,60) lebih banyak karena universe yang lebih luas (koin hidup di luar top-150 ikut bersaing masuk top-50) daripada karena koin mati.
+- Ekspektasi live yang realistis tetap Sharpe ±1,2–1,6.
+
+Catatan lain dari repo tersebut:
+- **Tidak bertentangan dengan FCL.** Temuan mereka "funding 24 jam tinggi → return 48 jam lebih tinggi" adalah efek jangka pendek. Di riset kita, FCL dengan window 1–3 hari juga lemah; edge FCL ada di funding **persisten 14 hari**.
+- Logger mereka (`oi_logs/`, Gate.io `contract_stats` per jam sejak 2026-08-23, termasuk `last_funding_rate`) adalah funding **Gate.io**, bukan Binance. Data ini belum diuji sebagai sinyal; ingat bahwa funding HYPE sebagai sinyal gagal. Potensinya hanya sebagai sumber cadangan kalau `predictedFundings` HYPE berhenti, dan harus divalidasi dulu.
+
 ---
 
 ## 9. Kelayakan tanpa VPS dan pilihan venue
@@ -422,7 +448,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 
 1. **Periode forward sangat ramah** (alt EW −57%; short alt yang crowded dibayar dua kali: lewat harga dan funding). Ekspektasi Sharpe 1–1,5.
 2. **DSR IS hanya 0,3–0,6** di tingkat desk (±900 config). Forward yang kuat (DSR 0,83) adalah bukti utamanya, tapi sampelnya hanya 21 bulan.
-3. **Survivorship bias:** daftar koin = yang masih hidup per 2026. Leg long (funding rendah) lebih dibesar-besarkan daripada leg short.
+3. **Survivorship bias:** daftar koin = yang masih hidup per 2026. Sudah diuji dengan panel 776 koin termasuk delisting (§8): Sharpe 1,33–1,60 vs 2,0–2,25 untuk koin yang masih hidup saja. Edge tetap ada, tapi angka backtest perlu dipotong ±0,6.
 4. **Konsentrasi:** di IS, top-5 koin = 53–59% PnL dan 10 hari terbaik = 40%.
 5. **Squeeze short:** coin yang di-short bisa naik 50–100% dalam sehari (DOGE 2021-01, GALA 2021-11). Mitigasi: filter momentum, stop +40%, dan k ≥ 8 nama.
 6. **Rekaman predicted vs settled** belum divalidasi (§11). Bootstrap 14 hari pertama hanya berkorelasi ranking 0,77.
