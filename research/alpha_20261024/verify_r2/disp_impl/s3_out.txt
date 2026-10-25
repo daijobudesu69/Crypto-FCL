@@ -1,0 +1,40 @@
+VALIDATION fixed-W: account_sim eq_end 358.0856 orders 1295 fees 35.7303 | mine eq_end 358.0856 orders 1295 fees 35.7303 | max|d equity| 0.00e+00
+ideal lab (G=1.0, full basket): Sharpe 2020-06..2024 1.375, 2023-24 1.123
+G=1.0 LIQ   D: A SR 0.81 eq $454 DD -30.9% | B SR -0.04 eq $186 DD -30.0% | orders A 2116 B 563 npos B 8.9 min_open 12.5 corr_ideal 0.86 | yearly {2020: -0.117, 2021: 0.565, 2022: 0.335, 2023: 0.616, 2024: -0.239, 2025: -0.001}
+G=1.0 LIQ   W: A SR 0.91 eq $532 DD -32.8% | B SR -0.14 eq $178 DD -30.8% | orders A 2120 B 465 npos B 8.4 min_open 12.5 corr_ideal 0.83 | yearly {2020: -0.098, 2021: 0.781, 2022: 0.295, 2023: 0.715, 2024: -0.254, 2025: -0.001}
+G=1.0 STRAT D: A SR 0.99 eq $555 DD -26.8% | B SR 1.01 eq $305 DD -26.6% | orders A 15989 B 6010 npos B 11.5 min_open 12.5 corr_ideal 0.92 | yearly {2020: -0.081, 2021: 0.8, 2022: 0.322, 2023: 0.314, 2024: -0.034, 2025: -0.001}
+G=1.0 STRAT W: A SR 0.93 eq $532 DD -36.9% | B SR 1.18 eq $329 DD -29.7% | orders A 5086 B 1994 npos B 11.7 min_open 12.5 corr_ideal 0.85 | yearly {2020: -0.134, 2021: 0.788, 2022: 0.221, 2023: 0.532, 2024: -0.081, 2025: -0.001}
+G=1.25 LIQ   D: A SR 0.74 eq $472 DD -34.6% | B SR 0.07 eq $194 DD -34.9% | orders A 2426 B 687 npos B 11.4 min_open 12.5 corr_ideal 0.88 | yearly {2020: -0.201, 2021: 0.57, 2022: 0.33, 2023: 0.841, 2024: -0.231, 2025: -0.001}
+G=1.25 LIQ   W: A SR 1.08 eq $847 DD -34.5% | B SR 0.07 eq $192 DD -36.9% | orders A 3126 B 599 npos B 11.3 min_open 12.5 corr_ideal 0.86 | yearly {2020: -0.197, 2021: 1.287, 2022: 0.296, 2023: 0.995, 2024: -0.107, 2025: -0.001}
+G=1.25 STRAT D: A SR 1.40 eq $1196 DD -28.8% | B SR 0.48 eq $243 DD -32.3% | orders A 4696 B 7040 npos B 13.1 min_open 12.5 corr_ideal 0.93 | yearly {2020: -0.031, 2021: 2.264, 2022: 0.15, 2023: 0.803, 2024: -0.088, 2025: -0.001}
+G=1.25 STRAT W: A SR 1.47 eq $1507 DD -30.3% | B SR 0.71 eq $275 DD -37.1% | orders A 3500 B 2297 npos B 14.0 min_open 12.5 corr_ideal 0.93 | yearly {2020: 0.058, 2021: 2.348, 2022: 0.169, 2023: 0.917, 2024: -0.05, 2025: -0.001}
+G=1.5 LIQ   D: A SR 1.32 eq $1407 DD -33.6% | B SR 0.24 eq $211 DD -45.6% | orders A 3825 B 1033 npos B 15.4 min_open 12.5 corr_ideal 0.93 | yearly {2020: -0.024, 2021: 2.217, 2022: 0.186, 2023: 1.102, 2024: -0.101, 2025: -0.001}
+G=1.5 LIQ   W: A SR 1.34 eq $1586 DD -36.9% | B SR 0.31 eq $219 DD -44.3% | orders A 3204 B 857 npos B 15.3 min_open 12.5 corr_ideal 0.92 | yearly {2020: -0.046, 2021: 2.528, 2022: 0.177, 2023: 1.102, 2024: -0.046, 2025: -0.001}
+G=1.5 STRAT D: A SR 1.46 eq $1769 DD -29.4% | B SR 0.56 eq $261 DD -42.9% | orders A 4740 B 8994 npos B 17.6 min_open 12.5 corr_ideal 0.96 | yearly {2020: 0.052, 2021: 2.49, 2022: 0.263, 2023: 1.135, 2024: -0.105, 2025: -0.001}
+G=1.5 STRAT W: A SR 1.41 eq $1763 DD -32.5% | B SR 0.82 eq $306 DD -42.4% | orders A 3270 B 2803 npos B 18.8 min_open 12.5 corr_ideal 0.94 | yearly {2020: 0.124, 2021: 2.256, 2022: 0.181, 2023: 1.123, 2024: -0.038, 2025: -0.001}
+
+ranking by score:
+       G      S  R   SR_A   SR_B    ddA    ddB  score  corr_ideal
+0   1.00  STRAT  D  0.986  1.005 -0.268 -0.266  0.986       0.920
+1   1.50  STRAT  W  1.409  0.819 -0.325 -0.424  0.819       0.940
+2   1.25  STRAT  W  1.467  0.708 -0.303 -0.371  0.708       0.925
+3   1.50  STRAT  D  1.460  0.564 -0.294 -0.429  0.564       0.958
+4   1.25  STRAT  D  1.397  0.483 -0.288 -0.323  0.483       0.933
+5   1.50    LIQ  D  1.318  0.243 -0.336 -0.456  0.243       0.925
+6   1.25    LIQ  D  0.741  0.071 -0.346 -0.349  0.071       0.878
+7   1.25    LIQ  W  1.085  0.065 -0.345 -0.369  0.065       0.860
+8   1.00    LIQ  D  0.815 -0.038 -0.309 -0.300 -0.038       0.860
+9   1.00    LIQ  W  0.907 -0.141 -0.328 -0.308 -0.141       0.831
+10  1.00  STRAT  W  0.927  1.184 -0.369 -0.297 -9.000       0.853
+11  1.50    LIQ  W  1.341  0.306 -0.369 -0.443 -9.000       0.919
+
+PICK (pre-registered rule): G=1.0 S=STRAT R=D score 0.986
+grid median SR_A 1.20 SR_B 0.39
+pick 2x cost: A SR 0.57 eq $341 DD -34.4% | B SR 0.74 eq $269 DD -28.1%
+pick lag1: A SR 0.89 eq $500 DD -29.5% | B SR 0.96 eq $297 DD -24.3%
+pick fresh-2023: yearly {2023: 0.675, 2024: -0.09, 2025: -0.001}, orders 6010, fees $57.76, funding $-3.59, avg npos 11.5, avg gross 1.00, min opened $12.50
+isolated-margin check run A: alt positions 8151; shorts: max adverse (close-to-close from entry) 119.8%, >25% 74, >40% 22, >90% 1; longs: max adverse 66.0%, >25% 69, >40% 9
+   worst 5 short excursions: [['1000SHIBUSDT', -1.0, 1.198], ['DOGEUSDT', -1.0, 0.765], ['NEARUSDT', -1.0, 0.756], ['XRPUSDT', -1.0, 0.732], ['SUIUSDT', -1.0, 0.643]]
+isolated-margin check run B: alt positions 3043; shorts: max adverse (close-to-close from entry) 83.7%, >25% 14, >40% 3, >90% 0; longs: max adverse 41.6%, >25% 4, >40% 2
+   worst 5 short excursions: [['DOGEUSDT', -1.0, 0.837], ['WLDUSDT', -1.0, 0.588], ['SUIUSDT', -1.0, 0.568], ['ZETAUSDT', -1.0, 0.394], ['ICPUSDT', -1.0, 0.361]]
+pick fresh-2023 monthly: pos months 56%, worst -7.6%, best 12.2%

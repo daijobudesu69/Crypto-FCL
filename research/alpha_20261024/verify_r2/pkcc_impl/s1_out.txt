@@ -1,0 +1,24 @@
+base n30                     SR 1.20 CAGR +35.7% MDD -33.5% sub 1.24/0.91/1.49 turn/yr 105 cost/yr 6.8% fund/yr +1.6% start 2020-03-10
+yearly base:
+ts       2020   2021   2022   2023   2024
+ret     0.817  0.159  0.197 -0.026  0.771
+sharpe  2.659  0.548  0.915 -0.079  2.683
+maxdd  -0.096 -0.335 -0.159 -0.242 -0.094
+positions/day: mean 14.2 min 3 max 21; long mean 6.6 short mean 7.6; first trade date 2020-03-09
+eligible names/day (U & ratio valid): mean 35.0 min 3 max 50 ; by year {2020: 16.1, 2021: 30.2, 2022: 34.3, 2023: 42.2, 2024: 49.1}
+2x cost                      SR 0.96 CAGR +26.7% MDD -35.6% sub 1.06/0.61/1.15 turn/yr 105 cost/yr 13.7% fund/yr +1.6% start 2020-03-10
+lag1                         SR 0.84 CAGR +22.0% MDD -36.5% sub 0.94/0.37/1.04 turn/yr 105 cost/yr 6.9% fund/yr +1.4% start 2020-03-11
+lag2                         SR 0.58 CAGR +13.2% MDD -39.9% sub 0.55/0.32/0.87 turn/yr 105 cost/yr 6.8% fund/yr +1.6% start 2020-03-12
+no funding                   SR 1.14 CAGR +33.5% MDD -33.1% sub 1.21/0.80/1.42 turn/yr 105 cost/yr 6.8% fund/yr +0.0% start 2020-03-10
+long leg (0.5 gross)         SR 1.33 CAGR +69.4% MDD -47.0% sub 2.27/-0.86/1.45 turn/yr 54 cost/yr 3.5% fund/yr -5.9% start 2020-03-10
+short leg (0.5 gross)        SR -0.69 CAGR -32.6% MDD -90.0% sub -1.63/1.46/-0.73 turn/yr 51 cost/yr 3.3% fund/yr +7.6% start 2020-03-10
+window n10                   SR 0.66 CAGR +16.1% MDD -47.6% sub 0.60/0.33/1.06 turn/yr 186 cost/yr 12.1% fund/yr +1.5% start 2020-03-10
+window n20                   SR 1.22 CAGR +40.4% MDD -47.1% sub 1.15/1.19/1.71 turn/yr 131 cost/yr 8.5% fund/yr +1.8% start 2020-03-10
+window n45                   SR 1.10 CAGR +30.9% MDD -31.6% sub 1.31/0.58/1.18 turn/yr 89 cost/yr 5.8% fund/yr +1.6% start 2020-03-10
+window n60                   SR 0.59 CAGR +13.2% MDD -44.0% sub 0.42/-0.22/1.36 turn/yr 77 cost/yr 5.0% fund/yr +1.6% start 2020-03-10
+window n90                   SR 0.05 CAGR -2.3% MDD -54.5% sub -0.77/0.34/1.19 turn/yr 65 cost/yr 4.3% fund/yr +0.9% start 2020-03-23
+k=8/side (16 pos)            SR 0.98 CAGR +23.0% MDD -34.4% sub 0.62/0.89/1.52 turn/yr 99 cost/yr 6.4% fund/yr +1.5% start 2020-03-10
+k=8/side lag1                SR 0.54 CAGR +10.5% MDD -40.1% sub 0.44/0.13/0.87 turn/yr 99 cost/yr 6.5% fund/yr +1.3% start 2020-03-11
+lab.backtest same W: SR 1.20 CAGR +35.7% MDD -33.5% start 2020-03-10
+own vs lab daily r: corr 1.00000, max abs diff 7.59e-06
+corr with BTC 0.10, with 14d XS mom 0.33

@@ -1,0 +1,18 @@
+(a) minp120 pct=rank: Sharpe 1.375 CAGR 37.6% MaxDD -21.1% tNW 2.90 start 2020-06-30 switches 61 2x 1.275 lag1 1.426 subs {'2020-21': np.float64(1.7), '2022': np.float64(1.31), '2023-24': np.float64(1.11)} skew 0.16 kurt 5.40 days 1646
+    yearly ret {2020: -0.016, 2021: 1.153, 2022: 0.301, 2023: 0.634, 2024: -0.062}  SR {2020: 0.03, 2021: 2.44, 2022: 1.31, 2023: 2.87, 2024: -0.14}
+    DSR n=95: 0.600
+    DSR n=855: 0.313
+(a) minp120 pct=count: Sharpe 1.375 CAGR 37.6% MaxDD -21.1% tNW 2.90 start 2020-06-30 switches 61 2x 1.275 lag1 1.426 subs {'2020-21': np.float64(1.7), '2022': np.float64(1.31), '2023-24': np.float64(1.11)} skew 0.16 kurt 5.40 days 1646
+    yearly ret {2020: -0.016, 2021: 1.153, 2022: 0.301, 2023: 0.634, 2024: -0.062}  SR {2020: 0.03, 2021: 2.44, 2022: 1.31, 2023: 2.87, 2024: -0.14}
+
+(c) first date disp valid: 2020-02-29 00:00:00+00:00  names that day 3
+    first p valid: 2020-06-27 00:00:00+00:00  first nonzero state: 2020-06-29 00:00:00+00:00
+    days in-sample with state!=0 and <10 names: 0  <20 names: 127
+    min / median names while trading: 15 35
+    forced-flat cells (W!=0 but next-bar return NaN): 77
+    interior NaN closes (gaps) per coin, coins with gaps: {'ZECUSDT': 5, 'SOLUSDT': 5, 'XRPUSDT': 5, 'NEARUSDT': 5, 'FILUSDT': 5, 'LTCUSDT': 5, 'ONEUSDT': 5, 'XLMUSDT': 5, 'LITUSDT': 5, 'HBARUSDT': 5, 'TRXUSDT': 5, 'ICPUSDT': 26, 'SANDUSDT': 5, 'ZENUSDT': 5, 'SUSHIUSDT': 5}
+    duplicate disp values (ties): 0
+    p range: 0.0027397260273972603 1.0
+(b) cut 2021-06-30: universe identical True, max|d disp| 0.00e+00, max|d p| 0.00e+00, p-NaN mismatches 0, state mismatches 0, max|dW| 0.00e+00, returns compared 365 max|dr| 0.00e+00, last ret date 2021-06-29 00:00:00+00:00
+(b) cut 2022-11-15: universe identical True, max|d disp| 0.00e+00, max|d p| 0.00e+00, p-NaN mismatches 0, state mismatches 0, max|dW| 0.00e+00, returns compared 868 max|dr| 0.00e+00, last ret date 2022-11-14 00:00:00+00:00
+(b) cut 2024-03-01: universe identical True, max|d disp| 0.00e+00, max|d p| 0.00e+00, p-NaN mismatches 0, state mismatches 0, max|dW| 0.00e+00, returns compared 1340 max|dr| 0.00e+00, last ret date 2024-02-29 00:00:00+00:00

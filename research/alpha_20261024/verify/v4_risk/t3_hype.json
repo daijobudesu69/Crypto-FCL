@@ -1,0 +1,381 @@
+{
+ "liquidity_2024_lowest15": {
+  "ZECUSDT": {
+   "days_in_book_2024": 59,
+   "days_short_2024": 42,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2023-01-07",
+   "days_in_book_without_hype_market": 0
+  },
+  "XLMUSDT": {
+   "days_in_book_2024": 105,
+   "days_short_2024": 7,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2022-02-28",
+   "days_in_book_without_hype_market": 0
+  },
+  "XMRUSDT": {
+   "days_in_book_2024": 58,
+   "days_short_2024": 6,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2023-04-22",
+   "days_in_book_without_hype_market": 0
+  },
+  "ICPUSDT": {
+   "days_in_book_2024": 115,
+   "days_short_2024": 21,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2023-02-13",
+   "days_in_book_without_hype_market": 0
+  },
+  "SANDUSDT": {
+   "days_in_book_2024": 100,
+   "days_short_2024": 53,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2022-03-11",
+   "days_in_book_without_hype_market": 0
+  },
+  "ALGOUSDT": {
+   "days_in_book_2024": 121,
+   "days_short_2024": 16,
+   "hype_median_qv_2024_musd": 0.0,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2022-03-11",
+   "days_in_book_without_hype_market": 0
+  },
+  "EIGENUSDT": {
+   "days_in_book_2024": 9,
+   "days_short_2024": 9,
+   "hype_median_qv_2024_musd": 0.05000000074505806,
+   "hype_p10_qv_2024_musd": 0.009999999776482582,
+   "hype_first_candle": "2024-04-30",
+   "days_in_book_without_hype_market": 0
+  },
+  "CAKEUSDT": {
+   "days_in_book_2024": 13,
+   "days_short_2024": 13,
+   "hype_median_qv_2024_musd": 0.25999999046325684,
+   "hype_p10_qv_2024_musd": 0.09000000357627869,
+   "hype_first_candle": "2023-11-02",
+   "days_in_book_without_hype_market": 0
+  },
+  "ZENUSDT": {
+   "days_in_book_2024": 30,
+   "days_short_2024": 30,
+   "hype_median_qv_2024_musd": 0.27000001072883606,
+   "hype_p10_qv_2024_musd": 0.10999999940395355,
+   "hype_first_candle": "2021-02-13",
+   "days_in_book_without_hype_market": 0
+  },
+  "HBARUSDT": {
+   "days_in_book_2024": 135,
+   "days_short_2024": 10,
+   "hype_median_qv_2024_musd": 0.28999999165534973,
+   "hype_p10_qv_2024_musd": 0.0,
+   "hype_first_candle": "2021-07-30",
+   "days_in_book_without_hype_market": 0
+  },
+  "ACEUSDT": {
+   "days_in_book_2024": 55,
+   "days_short_2024": 55,
+   "hype_median_qv_2024_musd": 0.3199999928474426,
+   "hype_p10_qv_2024_musd": 0.10000000149011612,
+   "hype_first_candle": "2023-12-18",
+   "days_in_book_without_hype_market": 0
+  },
+  "REZUSDT": {
+   "days_in_book_2024": 21,
+   "days_short_2024": 15,
+   "hype_median_qv_2024_musd": 0.3799999952316284,
+   "hype_p10_qv_2024_musd": 0.1599999964237213,
+   "hype_first_candle": "2024-04-30",
+   "days_in_book_without_hype_market": 0
+  },
+  "MINAUSDT": {
+   "days_in_book_2024": 101,
+   "days_short_2024": 91,
+   "hype_median_qv_2024_musd": 0.5,
+   "hype_p10_qv_2024_musd": 0.14000000059604645,
+   "hype_first_candle": "2023-02-07",
+   "days_in_book_without_hype_market": 0
+  },
+  "SUSHIUSDT": {
+   "days_in_book_2024": 67,
+   "days_short_2024": 25,
+   "hype_median_qv_2024_musd": 0.5099999904632568,
+   "hype_p10_qv_2024_musd": 0.17000000178813934,
+   "hype_first_candle": "2021-02-21",
+   "days_in_book_without_hype_market": 0
+  },
+  "GALAUSDT": {
+   "days_in_book_2024": 174,
+   "days_short_2024": 137,
+   "hype_median_qv_2024_musd": 0.5199999809265137,
+   "hype_p10_qv_2024_musd": 0.1899999976158142,
+   "hype_first_candle": "2021-09-18",
+   "days_in_book_without_hype_market": 0
+  }
+ },
+ "liquidity_2024_summary": {
+  "n_names_traded_2024": 67,
+  "median_of_medians_musd": 1.9700000286102295,
+  "names_median_qv_lt_5m": 54,
+  "names_median_qv_lt_1m": 25,
+  "coin_days_in_book_2024_without_hype_market": 0,
+  "share_coin_days_without_hype_market_2024": 0.0
+ },
+ "share_book_without_hype_market": {
+  "2023": 0.027,
+  "2024": 0.0
+ },
+ "hype_funding": {
+  "short_names_worst_daily_rate": [
+   [
+    "2024-08-06",
+    "PENDLEUSDT",
+    -0.00803
+   ],
+   [
+    "2023-12-03",
+    "1000SHIBUSDT",
+    -0.0044
+   ],
+   [
+    "2023-09-14",
+    "STXUSDT",
+    -0.0033
+   ],
+   [
+    "2023-09-13",
+    "STXUSDT",
+    -0.00329
+   ],
+   [
+    "2023-09-17",
+    "ARBUSDT",
+    -0.00312
+   ],
+   [
+    "2023-06-18",
+    "LINKUSDT",
+    -0.00261
+   ],
+   [
+    "2024-06-16",
+    "ONDOUSDT",
+    -0.00252
+   ],
+   [
+    "2024-04-10",
+    "BCHUSDT",
+    -0.00247
+   ],
+   [
+    "2023-06-10",
+    "AVAXUSDT",
+    -0.00246
+   ],
+   [
+    "2023-09-13",
+    "OPUSDT",
+    -0.00243
+   ]
+  ],
+  "short_names_daily_rate_p1": -0.0013,
+  "short_names_days_rate_lt_-0.5pct": 1,
+  "short_names_days_rate_lt_-1pct": 0,
+  "long_names_worst_daily_rate_paid": [
+   [
+    "2024-03-04",
+    "DOGEUSDT",
+    0.00921
+   ],
+   [
+    "2024-03-05",
+    "DOGEUSDT",
+    0.00908
+   ],
+   [
+    "2024-03-03",
+    "ARUSDT",
+    0.00816
+   ],
+   [
+    "2024-03-03",
+    "DOGEUSDT",
+    0.00793
+   ],
+   [
+    "2024-02-28",
+    "DOGEUSDT",
+    0.00647
+   ]
+  ],
+  "portfolio_worst_funding_days": [
+   [
+    "2023-12-08",
+    -0.0002
+   ],
+   [
+    "2023-12-10",
+    -0.00015
+   ],
+   [
+    "2023-12-03",
+    -0.0001
+   ],
+   [
+    "2024-06-13",
+    -9e-05
+   ],
+   [
+    "2023-12-04",
+    -9e-05
+   ]
+  ],
+  "portfolio_funding_ann_hype": 0.0967,
+  "portfolio_funding_ann_binance_same_period": 0.0683,
+  "short_names_mean_daily_rate_hype": 0.000848,
+  "short_names_mean_daily_rate_binance": 0.000446
+ },
+ "rank_agreement": {
+  "days": 581,
+  "spearman_median": 0.546,
+  "spearman_p10": 0.371,
+  "short_tercile_overlap_median": 0.556,
+  "short_tercile_overlap_p10": 0.4,
+  "first_day": "2023-05-31"
+ },
+ "venue_replay_2023H2_2024": {
+  "sig_binanceF14": {
+   "hype_px_fund_sharpe": 0.303,
+   "hype_cagr": 0.0365,
+   "hype_maxdd": -0.2681,
+   "hype_fund_yr": 0.0979,
+   "binance_px_fund_sharpe_same_weights": 0.088,
+   "npos": 31.4
+  },
+  "sig_hypeF14": {
+   "hype_px_fund_sharpe": -0.751,
+   "hype_cagr": -0.1368,
+   "hype_maxdd": -0.4,
+   "hype_fund_yr": 0.1652,
+   "binance_px_fund_sharpe_same_weights": -1.422,
+   "npos": 26.0
+  }
+ },
+ "episodes_1h": {
+  "n": 1590,
+  "share_touch_10pct": 0.374,
+  "share_touch_15pct": 0.275,
+  "share_touch_20pct": 0.215,
+  "share_touch_28pct": 0.143,
+  "share_touch_45pct": 0.073,
+  "share_touch_100pct": 0.023,
+  "per_year_touch_20pct": {
+   "2020": 31,
+   "2021": 92,
+   "2022": 50,
+   "2023": 79,
+   "2024": 90
+  }
+ },
+ "isolated_margin_estimate": {
+  "liq_4x_iso_~+20pct": {
+   "sharpe": 1.492,
+   "cagr": 0.3836,
+   "maxdd": -0.1781,
+   "n_liquidations": 342,
+   "sub": {
+    "2020-21": 2.524,
+    "2022": -0.308,
+    "2023-24": 0.711
+   }
+  },
+  "liq_3x_iso_~+28pct": {
+   "sharpe": 1.696,
+   "cagr": 0.4239,
+   "maxdd": -0.1787,
+   "n_liquidations": 228,
+   "sub": {
+    "2020-21": 2.706,
+    "2022": 0.375,
+    "2023-24": 0.778
+   }
+  },
+  "liq_2x_iso_~+45pct": {
+   "sharpe": 1.903,
+   "cagr": 0.4694,
+   "maxdd": -0.2179,
+   "n_liquidations": 116,
+   "sub": {
+    "2020-21": 2.769,
+    "2022": 1.325,
+    "2023-24": 0.989
+   }
+  }
+ },
+ "account_200": {
+  "binance_px_top50_from_2020-03": {
+   "equity_start": 200.0,
+   "equity_end": 1044.5699,
+   "total_return": 4.2228,
+   "maxdd": -0.2985,
+   "fees_usd": 115.194,
+   "funding_usd": 274.4563,
+   "orders": 6503,
+   "skipped_below_min": 0,
+   "avg_gross": 0.9846,
+   "avg_n_pos": 25.7108,
+   "sharpe": 1.65,
+   "skip_rate_per_day": 0.0
+  },
+  "binance_px_hype_univ_from_2020-03": {
+   "equity_start": 200.0,
+   "equity_end": 1091.7747,
+   "total_return": 4.4589,
+   "maxdd": -0.3236,
+   "fees_usd": 114.9666,
+   "funding_usd": 286.0357,
+   "orders": 6139,
+   "skipped_below_min": 0,
+   "avg_gross": 0.9962,
+   "avg_n_pos": 23.0492,
+   "sharpe": 1.599,
+   "skip_rate_per_day": 0.0
+  },
+  "hype_px_hype_univ_from_2023-07": {
+   "equity_start": 200.0,
+   "equity_end": 211.2616,
+   "total_return": 0.0563,
+   "maxdd": -0.0228,
+   "fees_usd": 0.1697,
+   "funding_usd": 0.7467,
+   "orders": 18,
+   "skipped_below_min": 17217,
+   "avg_gross": 0.007,
+   "avg_n_pos": 0.1018,
+   "sharpe": 0.839,
+   "skip_rate_per_day": 31.3
+  },
+  "binance_px_hype_univ_from_2023-07": {
+   "equity_start": 200.0,
+   "equity_end": 210.7063,
+   "total_return": 0.0535,
+   "maxdd": -0.0237,
+   "fees_usd": 0.1696,
+   "funding_usd": 0.2415,
+   "orders": 18,
+   "skipped_below_min": 17261,
+   "avg_gross": 0.007,
+   "avg_n_pos": 0.1018,
+   "sharpe": 0.805,
+   "skip_rate_per_day": 31.38
+  }
+ }
+}

@@ -1,0 +1,22 @@
+{
+ "sigBIN_univBIN_execBIN": [
+  0.96,
+  0.365
+ ],
+ "sigBIN_univBIN_execHYPE": [
+  0.97,
+  0.363
+ ],
+ "sigHYPE_univHYPE_execHYPE (primary)": [
+  0.38,
+  0.105
+ ],
+ "sigHYPE_univBIN&tradedHYPE_execHYPE": [
+  0.23,
+  0.046
+ ],
+ "sigBIN-OHLC_univHYPE_execHYPE": [
+  0.91,
+  0.327
+ ]
+}

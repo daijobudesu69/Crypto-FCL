@@ -1,0 +1,53 @@
+{
+ "RP365_q20": {
+  "hmom1+btc": 2.47,
+  "hmom3+btc": 1.97,
+  "hmom5+btc": 1.7,
+  "hmom7+btc": 1.4,
+  "hmom14+btc": 1.14,
+  "xsmom14+hmom5+hmom90+btc": 2.34,
+  "xsmom14+hmom1+hmom3+hmom5+hmom30+hmom90+btc": 2.52,
+  "corr_hmom5": 0.48,
+  "corr_hmom1": 0.18
+ },
+ "RP365_16pos": {
+  "hmom1+btc": 2.92,
+  "hmom3+btc": 2.53,
+  "hmom5+btc": 2.39,
+  "hmom7+btc": 1.91,
+  "hmom14+btc": 1.55,
+  "xsmom14+hmom5+hmom90+btc": 2.55,
+  "xsmom14+hmom1+hmom3+hmom5+hmom30+hmom90+btc": 2.61,
+  "corr_hmom5": 0.45,
+  "corr_hmom1": 0.16
+ },
+ "RP90_q20": {
+  "hmom1+btc": 2.76,
+  "hmom3+btc": 2.18,
+  "hmom5+btc": 2.02,
+  "hmom7+btc": 1.23,
+  "hmom14+btc": 0.8,
+  "xsmom14+hmom5+hmom90+btc": 1.89,
+  "xsmom14+hmom1+hmom3+hmom5+hmom30+hmom90+btc": 2.02,
+  "corr_hmom5": 0.42,
+  "corr_hmom1": 0.27
+ },
+ "RP90_16pos": {
+  "hmom1+btc": 2.87,
+  "hmom3+btc": 2.37,
+  "hmom5+btc": 2.22,
+  "hmom7+btc": 1.36,
+  "hmom14+btc": 0.9,
+  "xsmom14+hmom5+hmom90+btc": 2.04,
+  "xsmom14+hmom1+hmom3+hmom5+hmom30+hmom90+btc": 2.04,
+  "corr_hmom5": 0.56,
+  "corr_hmom1": 0.24
+ },
+ "hmom1_sharpe": -0.86,
+ "hmom3_sharpe": 0.2,
+ "hmom5_sharpe": 0.28,
+ "hmom7_sharpe": 0.98,
+ "hmom14_sharpe": 1.25,
+ "hmom30_sharpe": 0.92,
+ "hmom90_sharpe": 0.27
+}

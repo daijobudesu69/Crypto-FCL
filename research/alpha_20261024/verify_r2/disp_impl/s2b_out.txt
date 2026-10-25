@@ -1,0 +1,27 @@
+base Sharpe 1.375 {'20-21': np.float64(1.7), '22': np.float64(1.31), '23-24': np.float64(1.11)}
+T hi/lo 0.6/0.4: Sharpe 1.349 subs {'20-21': np.float64(1.43), '22': np.float64(1.17), '23-24': np.float64(1.42)} switches 85 yearly {2020: -0.121, 2021: 1.115, 2022: 0.262, 2023: 0.631, 2024: 0.071}
+T hi/lo 0.7/0.3: Sharpe 1.813 subs {'20-21': np.float64(1.92), '22': np.float64(1.6), '23-24': np.float64(1.9)} switches 57 yearly {2020: -0.022, 2021: 1.401, 2022: 0.386, 2023: 0.694, 2024: 0.263}
+T hi/lo 0.75/0.25: Sharpe 1.484 subs {'20-21': np.float64(1.83), '22': np.float64(1.62), '23-24': np.float64(1.1)} switches 49 yearly {2020: 0.013, 2021: 1.216, 2022: 0.392, 2023: 0.709, 2024: -0.106}
+T hi/lo 0.55/0.45: Sharpe 1.562 subs {'20-21': np.float64(1.68), '22': np.float64(0.93), '23-24': np.float64(1.84)} switches 127 yearly {2020: -0.105, 2021: 1.343, 2022: 0.197, 2023: 0.625, 2024: 0.283}
+G1 no-forced-flat: Sharpe 1.375 (base 1.375)
+interior-gap dates with >=5 coins missing: ['2022-02-26', '2022-02-27', '2022-02-28', '2022-04-01', '2022-04-02']
+state +1: days 846 ann ret 48.9% SR 1.64
+state -1: days 800 ann ret 20.8% SR 1.02
+episodes 61; total logPnL 1.441; top1 0.585 top3 0.989 (69% of total); positive episodes 56%
+top 5 episodes:
+          lr   st    n                     start
+sp                                              
+8   0.584788  1.0  177 2020-11-04 00:00:00+00:00
+35  0.242613 -1.0  106 2023-02-25 00:00:00+00:00
+21  0.161299 -1.0  161 2021-12-02 00:00:00+00:00
+7   0.132547 -1.0   27 2020-10-08 00:00:00+00:00
+10  0.098743  1.0   27 2021-05-05 00:00:00+00:00
+worst 3 episodes:
+          lr   st    n                     start
+sp                                              
+48 -0.049363  1.0  123 2024-02-05 00:00:00+00:00
+25 -0.055222 -1.0   20 2022-06-29 00:00:00+00:00
+13 -0.077088 -1.0   33 2021-07-17 00:00:00+00:00
+Sharpe dropping top-1 episodes' days: 1.020
+Sharpe dropping top-3 episodes' days: 0.692
+Sharpe dropping top-5 episodes' days: 0.427

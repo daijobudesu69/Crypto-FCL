@@ -1,0 +1,34 @@
+HYPE universe: BTC in universe from 2020-02-29 00:00:00+00:00  median names 34.0
+first date with >=5 names: 2020-03-09 00:00:00+00:00
+
+=== minp=365 first p valid 2021-03-08 00:00:00+00:00 first state 2021-03-12 00:00:00+00:00 ===
+own: Sharpe 1.288 MaxDD -18.0% total 188.3% switches 54  2xcost 1.177  lag1 1.323
+lab.backtest: Sharpe 1.288 MaxDD -18.0% turn/yr 40.0 cost/yr 2.60% fund/yr -1.19% start 2021-03-13
+subperiods: {'2020-21': np.float64(1.63), '2022': np.float64(1.31), '2023-24': np.float64(1.11)}
+ts       2021   2022   2023   2024
+ret     0.446  0.301  0.634 -0.062
+sharpe  1.632  1.309  2.870 -0.141
+maxdd  -0.179 -0.147 -0.068 -0.180
+time in state: long-spread 0.34 short-spread 0.42 flat 0.24
+
+=== minp=180 first p valid 2020-09-04 00:00:00+00:00 first state 2020-09-04 00:00:00+00:00 ===
+own: Sharpe 1.357 MaxDD -21.1% total 291.9% switches 58  2xcost 1.257  lag1 1.473
+lab.backtest: Sharpe 1.357 MaxDD -21.1% turn/yr 38.9 cost/yr 2.53% fund/yr -1.04% start 2020-09-05
+subperiods: {'2020-21': np.float64(1.7), '2022': np.float64(1.31), '2023-24': np.float64(1.11)}
+ts       2020   2021   2022   2023   2024
+ret    -0.087  1.153  0.301  0.634 -0.062
+sharpe -0.727  2.436  1.309  2.870 -0.141
+maxdd  -0.207 -0.179 -0.147 -0.068 -0.180
+time in state: long-spread 0.43 short-spread 0.44 flat 0.14
+
+=== minp=90 first p valid 2020-06-06 00:00:00+00:00 first state 2020-06-09 00:00:00+00:00 ===
+own: Sharpe 1.394 MaxDD -21.1% total 336.6% switches 61  2xcost 1.295  lag1 1.408
+lab.backtest: Sharpe 1.394 MaxDD -21.1% turn/yr 38.7 cost/yr 2.51% fund/yr -1.24% start 2020-06-10
+subperiods: {'2020-21': np.float64(1.74), '2022': np.float64(1.31), '2023-24': np.float64(1.11)}
+ts       2020   2021   2022   2023   2024
+ret     0.017  1.153  0.301  0.634 -0.062
+sharpe  0.246  2.436  1.309  2.870 -0.141
+maxdd  -0.207 -0.179 -0.147 -0.068 -0.180
+time in state: long-spread 0.46 short-spread 0.45 flat 0.09
+
+full Binance top50 (minp365): Sharpe 1.543 MaxDD -19.3% sub {'2020-21': np.float64(1.86), '2022': np.float64(1.79), '2023-24': np.float64(1.27)}

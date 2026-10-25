@@ -1,0 +1,28 @@
+## (a) truncation test
+cut 2021-05-19 conv A: rows 504, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2021-05-18 max|dW| 0.0e+00, n_pos 13), returns compared 435 (last 2021-05-18), max|dr| 0.0e+00
+cut 2021-05-19 conv B: rows 504, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2021-05-18 max|dW| 0.0e+00, n_pos 13), returns compared 435 (last 2021-05-18), max|dr| 0.0e+00
+cut 2022-11-08 conv A: rows 1042, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2022-11-07 max|dW| 0.0e+00, n_pos 15), returns compared 973 (last 2022-11-07), max|dr| 0.0e+00
+cut 2022-11-08 conv B: rows 1042, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2022-11-07 max|dW| 0.0e+00, n_pos 15), returns compared 973 (last 2022-11-07), max|dr| 0.0e+00
+cut 2024-03-14 conv A: rows 1534, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2024-03-13 max|dW| 0.0e+00, n_pos 19), returns compared 1465 (last 2024-03-13), max|dr| 0.0e+00
+cut 2024-03-14 conv B: rows 1534, U diff cells 0, signal diff cells 0, max|dW| 0.0e+00 (last row 2024-03-13 max|dW| 0.0e+00, n_pos 19), returns compared 1465 (last 2024-03-13), max|dr| 0.0e+00
+## (b) static audit
+first eligible date (U & ratio valid & N>=5): 2020-03-09, first trade 2020-03-09
+2020: hunter-conv names/leg long 4.1 (min 2) short 3.1 (min 1)
+2021: hunter-conv names/leg long 6.6 (min 6) short 5.6 (min 5)
+2022: hunter-conv names/leg long 7.2 (min 5) short 6.2 (min 4)
+2023: hunter-conv names/leg long 9.0 (min 8) short 8.0 (min 7)
+2024: hunter-conv names/leg long 10.5 (min 10) short 9.5 (min 9)
+conv A: book cells with H==L that day 29, book cells whose 30d window has >=10 H==L days 20, ICP held days 430
+conv B: book cells with H==L that day 29, book cells whose 30d window has >=10 H==L days 20, ICP held days 395
+book cells with <30 joint obs in window: 271 of 25023
+HYPE symbol list = coins on HYPE in 2026 (92); applied to all of 2020-24 -> future-listing selection (not price lookahead)
+## (c) execution delay on 1h closes
+consistency 1h close at 23:00 bar vs 1d close: median |diff| 0.0e+00, p99 0.0e+00
+delay 0h conv A: SR 1.20 sub 1.24/0.91/1.49
+delay 0h conv B: SR 1.31 sub 1.36/0.59/1.82
+delay 1h conv A: SR 1.20 sub 1.22/0.91/1.52
+delay 1h conv B: SR 1.32 sub 1.32/0.63/1.86
+delay 2h conv A: SR 1.14 sub 1.21/0.82/1.40
+delay 2h conv B: SR 1.29 sub 1.32/0.65/1.75
+delay 4h conv A: SR 1.06 sub 1.08/0.73/1.40
+delay 4h conv B: SR 1.19 sub 1.17/0.53/1.74

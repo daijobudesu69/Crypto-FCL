@@ -1,5 +1,7 @@
 # Crypto FCL — Funding-Crowding Long/Short (paper test di HYPE)
 
+> Dokumen lengkap (riset, keputusan, arsitektur, runbook): [docs/FCL_HANDOVER.md](docs/FCL_HANDOVER.md). Arsip riset: [research/](research/).
+
 Bot **paper trading** untuk strategi FCL hasil riset Alpha Hunt 24 Okt 2026. Laporan lengkap:
 `C:\Crypto data\backtest data and more\Alpha Hunt CHOP-30 20261024.md` (§6) dan
 `Alpha Hunt - Perbandingan RNT, Fat Tail, Uji Hipotesis 20261024.md`.

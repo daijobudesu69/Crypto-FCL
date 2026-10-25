@@ -1,0 +1,245 @@
+[
+ {
+  "lens": "overfitting, survivorship and risk critic (disp_crit)",
+  "candidate": "DISP7: dispersion-timed alts-vs-BTC spread (hunter r2_age_dispersion, B1_disp7_TERC)",
+  "verdict": "confirmed_with_concerns",
+  "key_numbers": "Independent reproduction is exact: SR 1.38, CAGR +37.6%, MaxDD -21.1%, t_NW 2.90, sub-periods 1.70/1.31/1.11, 2x cost 1.28, lag1 1.43, 60 switches. Yearly: 2020 -1.6%, 2021 +115%, 2022 +30%, 2023 +63%, 2024 -6% (SR -0.14).\n\nMULTIPLE TESTING\n- DSR: 0.876 at n=12, 0.684 at n=53, 0.600 at n=95, 0.313 at n=855 (0.438 using the family's empirical trial-SR sd of 0.45).\n- Harvey-Liu: t 2.90 < 3, so it fails. Bonferroni haircut SR: 0.94 at n=12, 0.60 at n=53, 0.43 at n=95, 0.00 at n=855.\n- 20-day block bootstrap: 90% CI [0.59, 2.18], P(SR<0.5) = 0.034, P(SR<1) = 0.21. With 60-day blocks the CI is [0.68, 2.04].\n- Circular-shift timing null (227 rotations): mean -0.14, max 1.35, P = 0.000.\n- Always long-spread: SR 0.56. Always short-spread: SR -0.62.\n\nSTABILITY\n- Rolling 365d SR: median 1.44, min -0.27 at 2024-12-22 (its sample low, at the very end).\n- Leave-one-year-out: ex2020 1.57, ex2021 0.96, ex2022 1.40, ex2023 1.12, ex2024 1.78.\n- 2023-24 alone 1.11, but last 18 months 0.47 and 2024 -0.14.\n- Ex 10 best days 0.93; ex 20 best days 0.57.\n- 61 regime spells (30 long-spread, 31 short-spread); 56% of spells are profitable; t across spells 2.03.\n- The top-3 spells are 69% of log P&L and the top-5 are 85%.\n- Leave-one-episode-out SR: min 1.02. Top-3 removed: 0.69 (0.59 if flat instead). Top-5 removed: 0.43. Top-10 removed: -0.11.\n\nSURVIVORSHIP (signal universe -> traded universe)\n- Pre-2022 listings: 1.43 (U50 signal) and 1.55 (both). This is a weak test because every 2020-21 coin is pre-2022.\n- L14 legacy majors: 0.84 (U50 signal) and 0.58 (both; 2022 -1.47).\n- L8 majors: 0.94 and 0.52.\n- Excluding coins in their first 180 days: 1.18 and 1.36 (2023-24 0.44, 2024 -0.91).\n\nPLATEAU (19 pre-registered cells)\n- Median 1.36, IQR [1.28, 1.50], min 1.09, max 1.96.\n- All 19 cells > 1.0 and all have 3 positive sub-periods. Only 10 of 19 have 2024 > 0. Median 2024 SR is 0.05.\n\nRISK\n- Worst day -10.6% (2021-05-19, long-spread, alts -36%). Worst week -12.4%. Worst month -15.8% (2020-12).\n- Worst drawdown -21%, Nov-Dec 2020: the book was short BTC while BTC rose 68% and alts 3%.\n- 2024 drawdown: -18% over 11 months.\n- Crash events: LUNA +11%, FTX -3.3%, 3AC +4.9%, 2021-05 crash -6.2%.\n- BTC beta: +0.06 in long-spread, -0.06 in short-spread. On days alts fall more than 5%: long-spread -1.71%, short-spread +1.54%.\n\n$200 ACCOUNT_SIM, 11-NAME BOOK\n- $200 start: SR 0.47, MaxDD -45%, 3,270 legs skipped below $10, 2024 -23%.\n- $300 start: SR 0.89, MaxDD -27%, 2023-24 SR 0.13.",
+  "findings": [
+   {
+    "issue": "Fails desk-level multiple-testing hurdles",
+    "severity": "major",
+    "evidence": "t_NW 2.90 < 3 (Harvey-Liu). The deflated Sharpe probability is only 0.31 at n=855 desk trials (0.60 at the hunter's 95). The Bonferroni-haircut Sharpe is 0.43 at n=95 and 0 at n=855. Mitigants: the 20d bootstrap gives P(SR<0.5) of 0.034, and a circular-shift timing null (227 rotations) never reaches 1.38 (max 1.35). So the in-sample timing is not noise, but the magnitude is not proven after selection."
+   },
+   {
+    "issue": "P&L concentrated in a handful of regime episodes; few independent bets",
+    "severity": "major",
+    "evidence": "There are 61 state spells (median 14d). The top-3 spells give 69% of log P&L and the top-5 give 85%. The largest is the long-spread spell 2020-11-04..2021-04-29 at +58.5%. With the top-3 spells removed SR is 0.69 (0.59 if flat). With the top-5 removed it is 0.43. Ex 10 best days SR is 0.93, ex-2021 0.96. The t-stat across spells is 2.03."
+   },
+   {
+    "issue": "Edge faded in the 2024 BTC-dominance / spot-ETF regime",
+    "severity": "major",
+    "evidence": "2024 SR is -0.14 (-6%) and the last 18 months 0.47. Rolling 365d SR ends at -0.17, its sample minimum. In 2024, 72% of days were long-spread, and those days lost 11%/yr. The forward 7d spread gap between states fell to +0.34% (vs +2.7..4.0% in 2020-23). There was an 11-month drawdown (2024-01-02 to 2024-11-20, -18%). In the plateau grid, 9 of 19 cells are negative in 2024 (median 2024 SR 0.05)."
+   },
+   {
+    "issue": "Survivorship flatters the LONG-SPREAD (long-alt) state and contaminates the signal",
+    "severity": "major",
+    "evidence": "LONG-SPREAD earns +49%/yr (SR 1.64) on U50. It falls to +38%/yr (1.24) with first-180d coins excluded from the basket and to +26%/yr (0.90) on the 14 legacy majors. Coins in their first 180 days produced +74% of the +220% arithmetic alt-leg P&L in that state on 16% of the weight; coins in their first 365 days produced +141%. The disp7 percentile correlates +0.36 with the count of young members. With signal and basket both on ex-ante-safe majors, SR is 0.58 (L14, 2022 -1.47) or 0.52 (L8). SHORT-SPREAD is understated, as expected: short young survivors cost -9.9%. The pre-2022-listing test (1.43/1.55) passes but cannot detect 2020-21 survivorship."
+   },
+   {
+    "issue": "$200 deployable version is materially worse than the headline",
+    "severity": "major",
+    "evidence": "The account_sim replay of the 11-name book (10 alts + BTC) starting at $200 gives SR 0.47, MaxDD -45%, +51% total, and 2024 -23%. 3,270 legs were skipped below the $10 minimum, so the hedge breaks whenever equity is under $200. Starting at $300 gives SR 0.89 and DD -27%, but 2023-24 SR is still 0.13. The lab SR of the 11-name book is 0.91, and the full 37-name book needs about $680 median equity."
+   },
+   {
+    "issue": "Not beta-neutral; alt-crash tail in LONG-SPREAD state",
+    "severity": "minor",
+    "evidence": "The alt EW beta to BTC is 1.12, so the 0.5/0.5 spread carries crash exposure. On days alts fall more than 5%, the book averages -1.71% in long-spread and +1.54% in short-spread. Worst day: -10.6% on 2021-05-19. Others: -5.3% on 2024-04-13 and -5.6% on 2024-12-09. Drawdown also comes from BTC-led rallies while short BTC: -21% in Nov-Dec 2020, when BTC rose 68% and alts 3%."
+   },
+   {
+    "issue": "Parameter plateau is genuinely broad (not a spike)",
+    "severity": "info",
+    "evidence": "19 cells were pre-registered: L 5/7/10/14 x window 180/365/730, bands 0.6/0.75/0.8, top30/75, IQR/MAD. Median SR 1.36, min 1.09, all > 1.0, and all with 3 positive sub-periods. The baseline ranks 9th of 19. The robust estimators (IQR/MAD) are weaker in 2023-24 (0.41/0.27), so std-dispersion leans on outlier pumps."
+   },
+   {
+    "issue": "Signal is partly right-tail pump / spread momentum",
+    "severity": "minor",
+    "evidence": "corr(p, 90th pct minus median) is +0.65 and corr(p, median minus 10th) is +0.49. The correlation with the trailing 7d/30d alt-BTC spread is +0.29/+0.31. In each year except 2022-23, one of the two states lost money: 2020 LONG -17%/yr, 2021 SHORT -25%/yr, 2024 LONG -11%/yr. So 'both states earn' holds only in aggregate."
+   }
+  ],
+  "recommendation": "Keep DISP7 as a paper-forward candidate only; do not size it as a 1.4-Sharpe strategy. Freeze the full-breadth spec exactly as claimed: HYPE top-50, std of 7d log returns, 365d percentile, 2/3 and 1/3 hysteresis, ±0.5/±0.5, daily. Report it in the forward test next to the 11-name $200 book. My expected forward Sharpe is about 0.5 at full breadth and about 0.3 at $200 / 11 names. Survivorship and the concentration in a few episodes argue for halving the in-sample Sharpe.\n\nDo not go live at $200. The hedge breaks below the $10 minimum (account_sim SR 0.47, DD -45%). Use at least $300 for 11 names or about $700 for the full book. Watch two kill-switch diagnostics: the rolling 365d Sharpe and the forward spread gap between states, both of which decayed in 2024.\n\nIf the desk wants a cleaner test, rebuild the alt basket and the signal from point-in-time listings including dead perps (data.binance.vision). The majors-only variant (SR 0.52-0.58) is the honest lower bound. A beta-neutral BTC leg (hunter post-hoc, 1.63) would cut the alt-crash tail but is another post-hoc trial.",
+  "report_path": "C:\\Crypto data\\backtest data and more\\alpha_20261024\\verify_r2\\disp_crit\\REPORT.md",
+  "prob_forward_sharpe_gt_0_5": 0.35,
+  "proposed_spec": ""
+ },
+ {
+  "lens": "disp_impl: independent reimplementation + lookahead audit + $200 design",
+  "candidate": "DISP7 — dispersion-timed alts-vs-BTC spread (hunter r2_age_dispersion, B1_disp7_TERC)",
+  "verdict": "confirmed_with_concerns",
+  "key_numbers": "STEP 1 (built from the rules text only, own return/cost/funding loop that matches lab.backtest to the bit). The rules do not say how many observations the 365d percentile needs before it is valid, and that choice moves the result: minp365 Sharpe 1.29 (starts 2021-03), minp180 1.36, minp90 1.39. After reading the code: the hunter uses minp=120. With minp=120 the replication is exact: Sharpe 1.375 (claimed 1.38), CAGR 37.6%, MaxDD -21.1%, t_NW 2.90, sub-periods 1.70/1.31/1.11, years 2020 -1.6% / 2021 +115.3% / 2022 +30.1% / 2023 +63.4% / 2024 -6.2%, 61 switches, 2x cost 1.275, lag1 1.426, corr BTC 0.026, corr xsmom14 0.074, alpha t vs xsmom14 2.83. No gap > 0.15. Full Binance top-50 universe: 1.54.\nSTEP 2: the truncation test at 2021-06-30, 2022-11-15 and 2024-03-01 gives bit-identical universe, disp7, percentile, state, weights and returns (365/868/1340 return days compared, max diff 0). No full-sample statistic is used. The first state is 2020-06-29, and the universe never has fewer than 15 names while trading. Threshold neighbours (hi/lo) 0.6/0.4 = 1.35, 0.7/0.3 = 1.81, 0.75/0.25 = 1.48, 0.55/0.45 = 1.56, so the result is a plateau, not a spike. Episode concentration: 61 spells, 56% positive. The top 3 spells give 69% of total log-PnL, and the Nov-2020..Apr-2021 long-spread spell alone gives 41%. Sharpe without the top-1 / top-3 / top-5 spells: 1.02 / 0.69 / 0.43. DSR is 0.60 at n=95 trials, 0.44 at n=300, and 0.31 at n=855 (desk-wide).\nSTEP 3: 12 configs, pre-registered: G {1, 1.25, 1.5} x selection {LIQ, STRAT} x rebalance {D, W}, with N = min(M, max(4, floor(E*G/2/12.5))). Each config was replayed twice with an equity-aware re-code of account_sim (validated to reproduce account_sim.simulate exactly): run A = $200 from 2020-03 to 2024-12, run B = fresh $200 from 2023-01-01. Most-liquid-alt selection (LIQ) fails in run B (Sharpe -0.14..0.31). Stratified selection (STRAT) works. The pre-registered rule picked G1.0 STRAT D (A 0.99 / B 1.01, DD -27%), but its 2x-cost Sharpe in run A is 0.57: daily slot churn makes about 3000 orders/yr and about $29-35/yr in fees. That fired my pre-declared re-rank trigger, and the result is G1.0 STRAT W: A Sharpe 0.93 ($200->$532, DD -36.9%), B 1.18 ($200->$329, DD -29.7%), 2x cost 1.07/0.63, lag1 1.06/1.10, fees about $12/yr, about 1000 orders/yr. Shifting the weekly rebalance across the 7 weekdays moves Sharpe 0.84-1.23 in run A and 0.66-1.41 in run B; starting equity $150/$250/$400 gives B Sharpe 1.14/0.73/1.04. Configs I ran: about 22, so the desk total is about 877.",
+  "findings": [
+   {
+    "issue": "After desk-wide multiple testing the edge is not significant. The deflated Sharpe probability falls from 0.60 at the hunter's 95 trials to 0.31 at the desk's ~855 trials.",
+    "severity": "major",
+    "evidence": "s2c_out.txt: lab.deflated_sharpe(1.375, n, 1646 days, skew 0.16, kurt 5.40+3) = 0.600 (n=95), 0.439 (n=300), 0.313 (n=855), 0.307 (n=900)."
+   },
+   {
+    "issue": "PnL comes from a few episodes. One long-spread spell over the 2020-21 alt season (Nov 2020 to Apr 2021, 177 days) is 41% of total log-PnL, and the top 3 of 61 spells are 69%. Survivorship bias inflates exactly this alt-basket episode, because the coin list is the coins still alive in 2026.",
+    "severity": "major",
+    "evidence": "s2b_out.txt: total logPnL 1.441, top1 0.585, top3 0.989. Sharpe without the days of the top-1/3/5 spells: 1.02 / 0.69 / 0.43. Of the yearly returns, 2021 is +115%; 2020 is -1.6% and 2024 is -6.2%."
+   },
+   {
+    "issue": "The $200 version loses about a third of the Sharpe, has drawdowns about 1.5x deeper, and its results swing a lot with arbitrary choices. Most-liquid-alt selection (LIQ, closest to the hunter's 11-position book) fails on a fresh 2023 start.",
+    "severity": "major",
+    "evidence": "s3_out.txt: ideal (lab, full basket) Sharpe 1.375 / DD -21%. Across the 12-config $200 grid, the median Sharpe is 1.20 for run A (2020-03 to 2024) and 0.39 for run B (fresh 2023 start). LIQ run B Sharpe ranges -0.14 to 0.31. STRAT keeps a 0.85-0.96 correlation with the ideal returns. s3c_out.txt: the weekday phase of the weekly rebalance alone moves the pick's Sharpe 0.84-1.23 (A) and 0.66-1.41 (B), and DD -28% to -37%."
+   },
+   {
+    "issue": "The design deviated from its pre-registration. The rule's pick (G1.0 STRAT D) fails the brief's 2x-cost bar in run A, because stratified rank slots change membership every day. The replacement (G1.0 STRAT W, picked by a re-rank trigger declared before the stress run) missed the pre-registered MaxDD filter (-36.9% vs -35%), and that miss depends on which weekday the rebalance falls on.",
+    "severity": "minor",
+    "evidence": "s3b_out.txt: STRAT D 2x cost A 0.57 / B 0.74, fees $34.7/yr (A) and $28.8/yr (B), 3001 orders/yr. STRAT W 2x cost A 1.07 / B 0.63, lag1 1.06/1.10, fees about $12-14/yr. s3c: STRAT W DD over the other weekdays is -28% to -34%."
+   },
+   {
+    "issue": "Isolated margin is unsafe for the short-alt leg. Spells last weeks, and single alts run up far more than an isolated 4x (or even 2x) margin can absorb.",
+    "severity": "minor",
+    "evidence": "s3_out.txt (pick, close-to-close from entry, wicks not included): run A shorts with adverse move >25%: 74, >40%: 22, >90%: 1 (1000SHIB +120%, DOGE +77%, NEAR +76%, XRP +73%). Run B: 14 / 3 / 0 (DOGE +84%). Longs: max adverse 66% (A) and 42% (B)."
+   },
+   {
+    "issue": "The recent regime is weak. 2024 is negative in the ideal book and in every $200 version, and 2020 is roughly flat.",
+    "severity": "minor",
+    "evidence": "Ideal 2024 -6.2% (Sharpe -0.14). Across the $200 grid, 2024 ranges from -3% to -25%; the pick's run B gives 2024 +5.1% but its run A gives -8.1%. 2020: -1.6% ideal."
+   },
+   {
+    "issue": "Live data may not match the backtest. Live ranks the universe by HYPE volume and HYPE listing age, while the backtest used Binance volume and history, so the live universe and disp7 can differ. This was not testable within the rules.",
+    "severity": "minor",
+    "evidence": "lab.hype_universe ranks by the Binance 30d median qv. hype_symbols() is a fixed 2026 list of 92 coins, which is selection bias the user accepted."
+   },
+   {
+    "issue": "The independent reimplementation reproduces every claimed number. The only ambiguity in the rules text is the warm-up (minimum observations) of the 365d percentile.",
+    "severity": "info",
+    "evidence": "s1_out.txt / s2_out.txt: minp=120 gives Sharpe 1.375, sub-periods 1.70/1.31/1.11, 61 switches, 2x 1.275, lag1 1.426, alpha t 2.83, corr xsmom 0.074, matching the claims. My own loop equals lab.backtest. minp=365: 1.29, so the effect of the 120-day warm-up is about 0.09, below 0.15."
+   },
+   {
+    "issue": "No lookahead found. Everything is trailing: the percentile (window includes today), the universe (trailing 30d median qv, 60d history), and the 7d log return. Truncating the data changes nothing before the cut. The harness's forced exit before a missing bar (77 cells, mostly the common data gaps 2022-02-26..28 and 2022-04-01..02) has no effect.",
+    "severity": "info",
+    "evidence": "s2_out.txt truncation at 3 cuts: max difference 0 in every field. s2b: keeping weights through the gaps gives Sharpe 1.375, the same as base."
+   },
+   {
+    "issue": "The thresholds sit on a plateau rather than a spike, and both states earn money: long-spread and short-spread are each profitable.",
+    "severity": "info",
+    "evidence": "s2b_out.txt: hi/lo 0.6/0.4 = 1.35, 0.7/0.3 = 1.81, 0.75/0.25 = 1.48, 0.55/0.45 = 1.56. State +1: 48.9%/yr (Sharpe 1.64); state -1: 20.8%/yr (Sharpe 1.02). Correlation with BTC by state: +0.13 / -0.16."
+   }
+  ],
+  "recommendation": "Forward DISP7 to the lead's one-time 2025+ test as a low-conviction candidate, using the frozen $200 spec below (G=1.0, stratified 8+ alts, weekly re-target with immediate state switches, cross margin), not the infinitely divisible top-50 book.\n\nMy lens finds no mechanical fault. The reimplementation is exact and the code has no lookahead. The statistical case is thin: DSR is 0.31 at desk-wide trial counts, about 69% of PnL comes from 3 regime spells (mostly the 2021 alt season, which survivorship flatters), and 2024 was negative. At $200, expect a Sharpe of roughly 0.9-1.1 IS with drawdowns of -30% to -37%. Selection details and rebalance phase add roughly ±0.3 Sharpe of path noise.\n\nDo not use most-liquid-alt selection; it fails in 2023-24. Do not use isolated margin on the short-alt legs.\n\nPaper-trade before going live. Treat a forward Sharpe below about 0.3 over 12 months, or a drawdown worse than -40%, as a fail.\n\nNote: the harness blocked writing REPORT.md (\"Subagents should return findings as text\"). Each step's results were saved incrementally as script outputs in the folder instead: s1_out.txt, s2_out.txt, s2b_out.txt, s2c_out.txt, s3_out.txt, s3_grid.csv, s3b_out.txt, s3c_out.txt, s3c_equity_A.csv and s3c_equity_B.csv. The scripts that produce them are s1_reimpl.py, s2_audit.py, s2b_break.py, s2c_corr.py, s3_design.py (pre-registration in its header), s3_design_lib.py, s3b_stress.py and s3c_phase.py.",
+  "report_path": "C:\\Crypto data\\backtest data and more\\alpha_20261024\\verify_r2\\disp_impl\\s3_out.txt",
+  "prob_forward_sharpe_gt_0_5": 0.4,
+  "proposed_spec": "DISP7-200 v1 (frozen). Venue HYPE (Hyperliquid perps). Daily GitHub Actions job shortly after 00:00 UTC, using HYPE daily candles (close, quote volume) only.\n1) Coin set: the HYPE-listed coins in hype_map.csv (backtested set), excluding stablecoins.\n2) Universe U_t at the 00:00 UTC close t: coins with >= 60 daily closes of history and a close at t. Rank them by the trailing 30-day median daily quote volume (needs >= 15 values) and keep the top 50.\n3) Signal: disp7_t = sample std (ddof=1) across U_t of ln(close_t / close_{t-7}). Coins missing either close are dropped.\n4) p_t = fraction of disp7 values on days t-364..t (today included, missing values ignored, need >= 120 values) that are <= disp7_t.\n5) State machine, replayed deterministically from the start of history on every run: state = +1 if p_t > 2/3; -1 if p_t < 1/3; otherwise unchanged from the previous day (0 before the first trigger).\n6) Book at a re-target close, with E = account equity in USD marked at that close: alts = U_t minus BTC, sorted by 30d median quote volume descending, giving M names. N = min(M, max(4, floor(E * 1.0 / 2 / 12.5))), which is N = 8 at $200. Selected alts are the sorted ranks floor((i + 0.5) * M / N) for i = 0..N-1 (0-based, i.e. stratified across the liquidity ranking). Target notional per selected alt = state * 0.5 * E / N. BTC target notional = -state * 0.5 * E. Gross = 1.0x equity, dollar-neutral. If state = 0, hold nothing.\n7) Re-target only on (a) a close where the state changes and (b) every Monday 00:00 UTC close. No orders on any other day.\n8) On a re-target: close every position not in the target with a full reduce-only market close, whatever its size. For the others, send a market order only if |target - current| >= $10. Never open a position below $10 (by construction each alt target is >= $12.50).\n9) Execution: taker market orders within about 1 h of the close. Up to a 1-day delay was tested (lag1 Sharpe 1.06/1.10).\n10) Margin: CROSS margin, gross <= 1.0x equity, per-coin leverage setting >= 2x (sets required margin only). No isolated margin on short alts; if a coin is isolated-only on HYPE, margin it at 1x (margin = notional). No stops, no other overlays.\nIS expectation (2020-03 to 2024-12 at $200): Sharpe 0.93, $200 -> $532, MaxDD -36.9%. Fresh $200 from 2023-01: Sharpe 1.18, $200 -> $329, MaxDD -29.7%. Fees about $12/yr, about 1000 orders/yr, about 9-12 positions."
+ },
+ {
+  "lens": "overfitting, survivorship and risk critic",
+  "candidate": "PKCC30 - Parkinson/close-to-close vol-ratio L/S (hunter r2_vol_structure, B_pkcc30_FLIP_R1), HYPE top-50 quintile, daily rebalance",
+  "verdict": "confirmed_with_concerns",
+  "key_numbers": "My own code reproduces every claimed number exactly: Sharpe 1.34, MaxDD -28.1%, sub-periods 1.36/0.75/1.82, 2x cost 1.09, lag1 0.92, lag2 0.17, 16-pos 1.01.\n\nMultiple testing:\n- Plain t is 2.94 and NW t is 3.13. Bonferroni hurdle at M=855 is t>4.02.\n- Deflated Sharpe: n=49: 0.67; n=85: 0.59; n=855: 0.28 (sd 0.5) and 0.00 (sd 0.83). 16-pos at n=855: 0.09.\n- Bonferroni and BHY haircut Sharpe at M=855: 0.\n- 20d block bootstrap: 90% CI [0.67, 2.00], P(SR<0.5) = 0.019. 16-pos: [0.32, 1.70], P = 0.11. Lag1: [0.25, 1.61], P = 0.15.\n\nStability:\n- By year: 2020 2.32, 2021 0.86, 2022 0.75, 2023 0.37, 2024 2.95. 16-pos: 2021 -0.11, 2023 -0.06.\n- Leave-one-year-out: 1.02 (ex2024) to 1.66 (ex2021). 2023-24 alone 1.82.\n- Rolling 365d Sharpe: min -0.47, positive 89% of the time, below 0.5 from 2023Q2 to 2023Q4.\n- Ex 10 best days: 0.87 (16-pos 0.54, lag1 0.44). Top-3 months removed: 1.02.\n- Leave-one-coin-out: min 1.16.\n\nSurvivorship:\n- No coin in its first 180 days: 0.81 (lag1 0.45).\n- Coins listed before 2022: 0.88, with 2023-24 at 0.46.\n- 15 legacy majors only: 0.66 (lag1 0.35).\n- Binance top-50 instead of HYPE top-50: 1.11.\n- Coins under 180 days old are 13% of coin-days but 44% of price PnL.\n- Crash coin-days (5d <= -25%): held long 268 times vs short 144. They bounce +3.45% the next day and give +34% of price PnL. Excluding them: 1.02. Excluding them and young coins: 0.63.\n- Long-minus-EW excess Sharpe drops from 0.99 to 0.37-0.62. EW-minus-short drops from 1.70 to 1.17-1.32.\n\nPlateau (20 pre-registered cells): median 1.20, IQR 1.11-1.35, min 0.94. Lag1 median 0.90, 2x cost median 0.95. Every cell has all sub-periods > 0. The same window sweep with min_hist 180 has median 0.81.\n\nRisk:\n- Worst day -9.4% and worst week -19.2% (2021-02-13/14). Worst month -13.1% (2021-08).\n- Worst DD -28.1% from 2021-01-07 to 02-16, during the alt-season squeeze: EW universe +207%, short leg -47%.\n- Crash windows: May-2021 -9.5%, LUNA +7.1%, FTX +0.9%, Aug-24 +3.9%.\n- BTC beta +0.04 overall and +0.00 on BTC down days.\n- Sharpe 1.88 when BTC led alts over the prior 30d vs 0.97 when alts led (16-pos 2.01 vs 0.32). 1.86 in low BTC vol vs 0.73 in high.\n- $200 sim: quintile ends at $893 (MaxDD -30%), 16-pos at $583 (MaxDD -35%).\n\nOverlap: correlation 0.42 with a long-high-close-to-close-vol30 book (Sharpe 1.05, or 0.58 with min_hist 180). After adding that book, alpha t is 1.89.",
+  "findings": [
+   {
+    "issue": "Fails desk-level multiple testing: the deflated Sharpe is low and the Harvey-Liu-Zhu haircut Sharpe is zero at 855 trials",
+    "severity": "major",
+    "evidence": "DSR at n=855 is 0.28 (lab default trial dispersion 0.5) and 0.00 with the observed family-B dispersion 0.83. Plain t is 2.94, below the t>3 hurdle; NW t is 3.13. The Bonferroni hurdle is 4.02 at M=855 and 3.48 even at M_eff=100. DSR exceeds 0.5 only at the hunter's own count (n=49: 0.67)."
+   },
+   {
+    "issue": "Survivorship flatters the edge a lot, and most of it sits in young coins. The long leg is the more flattered leg.",
+    "severity": "major",
+    "evidence": "min_hist 180d: Sharpe 0.81, lag1 0.45. Listed before 2022: 0.88, with 2023-24 falling 1.82 -> 0.46. Legacy majors: 0.66, lag1 0.35. Coin-days under 180 days old are 13% of the book but earn 44% of price PnL (long +71%). Long-minus-EW excess Sharpe falls 0.99 -> 0.37-0.62; short excess falls 1.70 -> 1.17-1.32."
+   },
+   {
+    "issue": "The long leg buys crashes, because closing at the day's extreme gives a low ratio. Survivors bounce; the coins that went to zero (LUNA, FTT) are missing from the data.",
+    "severity": "major",
+    "evidence": "Crash coin-days (trailing 5d <= -25%) are held long 268 times vs short 144. They return +3.45% the next day and give +34% of total price PnL. Excluding them: 1.02; excluding them and young coins: 0.63. One LUNA-style wipe in the long leg costs about 6.5% of equity."
+   },
+   {
+    "issue": "The 'listed on HYPE today' filter is future information and adds Sharpe",
+    "severity": "minor",
+    "evidence": "Binance top-50 gives 1.11 vs 1.34 for HYPE top-50. Non-HYPE survivors ranked among themselves give -0.52, but that test is thin: only 20 coins, about 3.7 positions."
+   },
+   {
+    "issue": "Returns are episodic and depend on the fat right tail. The deployable 16-pos book loses in 2021 and 2023.",
+    "severity": "major",
+    "evidence": "By year: 2020 2.32 (only 3 names per side), 2021 0.86, 2022 0.75, 2023 0.37, 2024 2.95. Ex-2024 Sharpe 1.02. Ex 10 best days: 0.87, 16-pos 0.54, lag1 0.44. The 10 best days are 40% of summed net return. Rolling 365d Sharpe was below 0.5 from 2023Q2 to Q4 (min -0.47)."
+   },
+   {
+    "issue": "Part of the PnL overlaps with a survivorship-sensitive long-high-realised-vol (lottery) book",
+    "severity": "minor",
+    "evidence": "Long-high-CC-vol30 book: Sharpe 1.05 (0.58 with min_hist 180), correlation 0.42 with PKCC30. PKCC alpha on [CCvol30, xsmom14, BTC] is +19%/yr with t 1.89 (CCvol loading +0.28, t 5.4)."
+   },
+   {
+    "issue": "Biggest risk is an alt-season squeeze on the short leg, not an alt crash",
+    "severity": "minor",
+    "evidence": "Worst DD -28.1% (2021-01-07 to 02-16) while the EW universe rose 207% and the short leg lost 47%. 2nd-worst DD -26.7% (Jun-Oct 2021). Sharpe is 0.97 when alts led BTC (16-pos 0.32) vs 1.88 when BTC led. May-2021 crash: -9.5%. It hedged LUNA (+7.1%), FTX (+0.9%) and Aug-2024 (+3.9%). BTC beta is about 0.04."
+   },
+   {
+    "issue": "Fast signal: the information decays within about 2 days, so it is fragile to crowding and timing",
+    "severity": "minor",
+    "evidence": "lag1 0.92, lag2 0.17, lag3 -0.09; holding 5d gives 0.40. With min_hist 180 the lag1 Sharpe is 0.45, below the 0.6 bar."
+   },
+   {
+    "issue": "In its favour: the local parameter plateau is genuine",
+    "severity": "info",
+    "evidence": "20 pre-registered cells (W 20-45 x q 0.15-0.30, top_k 40/60, Garman-Klass (GK), EWMA, rank weights): median Sharpe 1.20, min 0.94, lag1 median 0.90, 2x cost median 0.95, all sub-periods > 0 in 20/20 cells. Leave-one-coin-out min 1.16. Bootstrap P(SR<0.5) = 0.019."
+   },
+   {
+    "issue": "The code reproduces the claim exactly; no implementation discrepancy",
+    "severity": "info",
+    "evidence": "Independent vlib.py reproduces Sharpe 1.34, MaxDD -28.1%, subs 1.36/0.75/1.82, 2x cost 1.09, lag1 0.92, lag2 0.17, 16-pos 1.01."
+   }
+  ],
+  "recommendation": "PKCC30 can go to the frozen forward test, but haircut expectations. The survivorship- and selection-adjusted IS Sharpe is about 0.6-0.9. Expect about 0.4-0.6 live.\n\n1. Freeze the quintile book. It runs about 14-20 names; at $200 that is about $10 per name at the 2024 universe size, right at the venue minimum, so check min equity. Do not freeze the 16-pos book: IS 1.01, lag1 0.55, negative in 2021 and 2023, DSR 0.09 at n=855.\n2. Ask the lead to also report the forward result with min_hist_days=180 next to the spec as written. That isolates how much the young-survivor effect contributes. Do not use it to re-select.\n3. Live, the long leg will hold crashing coins that may never bounce (the LUNA/FTT type). Set a per-name loss tolerance of about 7% of equity per wipe, and size the account assuming one or two such events.\n4. The main drawdown risk is an alt-season squeeze on the short leg (-28% in 6 weeks in Jan-Feb 2021). Pre-agree a kill or review rule, for example rolling 180d Sharpe below 0 or DD beyond -30%, rather than reacting ad hoc.\n5. At desk level the result is not statistically distinguishable from the best of about 855 trials. Treat the forward test as the real test and do not add capital before 6-12 months of live data.",
+  "report_path": "C:\\Crypto data\\backtest data and more\\alpha_20261024\\verify_r2\\pkcc_crit\\REPORT.md",
+  "prob_forward_sharpe_gt_0_5": 0.4,
+  "proposed_spec": ""
+ },
+ {
+  "lens": "independent reimplementation + lookahead audit + $200 design",
+  "candidate": "PKCC30 — Parkinson/close-to-close vol-ratio L/S (hunter r2_vol_structure, B_pkcc30_FLIP_R1)",
+  "verdict": "confirmed_with_concerns",
+  "key_numbers": "I reimplemented the rule from the text in my own dollar-equity loop. It matches lab.backtest on the same weights (corr 1.00000). Literal reading (long floor(0.2N) low-ratio, short floor+1 high-ratio): SR 1.20, MDD -33.5%, sub-periods 1.24/0.91/1.49, 2x cost 0.96, lag1 0.84, lag2 0.58. Windows 10/20/30/45/60/90: 0.66/1.22/1.20/1.10/0.59/0.05. 16-pos 0.98 (lag1 0.54).\n\nThe hunter's exact weights run through my loop give 1.34 with sub-periods 1.36/0.75/1.82, so his numbers are arithmetically correct. The gap comes from two things.\n(a) Leg-count convention. pandas pct-rank selects floor+1 names for 'top' and floor for 'bottom'. The four readings of 'bottom/top 20%' give 1.20/1.31/1.41/1.08. 2021 return ranges from -2% to +55%.\n(b) Stale ICP data (H==L for 82 days in mid-2022). The hunter's code sets ICP's ratio to +inf and keeps it short at zero return. This adds 0.16 to 2022 (0.59 -> 0.75).\n\nTruncation test at 2021-05-19, 2022-11-08 and 2024-03-14: universe, signal, weights and returns before each cut are bit-identical. Execution delay 0/1/2/4h: 1.31/1.32/1.29/1.19 (hunter convention). In 2020 the legs hold only 3-4 names.\n\n$200 grid (12 pre-registered configs, account_sim replay matches in every run). Full-period SR: k8 books 0.85-0.89 (2021 negative), k6 books 1.01-1.03, k8+hysteresis 0.97, 2-day rebalance 0.80, weekly 0.46 (lag1 -0.31). The quintile-capped k (D7/D12) gives 1.32-1.35. Every daily config loses money in 2023.\n\nSelected D12. Full: SR 1.32, $200 -> $1094, MDD -29%, lag1 1.00, 2x cost 1.10, lag2 0.22. Fresh $200 starts: 2021 1.04, 2022 0.96, 2023 1.38 ($350). With the universe ranked inside the HYPE list: top-50 1.34 / fresh-2023 1.37, top-40 1.21 / 1.07.\n\nDSR (deflated Sharpe probability) at n=855-892 trials: D12 0.26, hunter headline 0.28. This verifier ran 43 configs.",
+  "findings": [
+   {
+    "issue": "The headline Sharpe of 1.34 rests on an implementation quirk. pandas pct-rank picks floor(0.2N)+1 names for 'top q' and floor(0.2N) for 'bottom q'. Because the hunter ranks -ratio, his book holds one more long than short. All four reasonable readings of 'bottom/top 20%' give very different results.",
+    "severity": "major",
+    "evidence": "s1d_legcount.py. L=floor,S=floor+1: 1.20. Hunter's L=floor+1,S=floor: 1.31. Both floor: 1.41. Both floor+1: 1.08. 2021 return across these: +16%/+31%/+55%/-2%. Adding a name per side lowers Sharpe, so the edge sits in the most extreme ~6 names per side."
+   },
+   {
+    "issue": "A stale-data artefact flatters 2022. ICPUSDT is frozen (H==L) for 82 days while still in the universe. The hunter clips H/L at 1+1e-5, so ICP's ratio becomes +inf and it sits in the short leg at zero return.",
+    "severity": "minor",
+    "evidence": "s1b_diff.py and s1c_data.py: 53 inf cells, all ICP, 2022-07-10..08-31. 2022 Sharpe is 0.59 without the artefact and 0.75 with it. Full-period effect is +0.03."
+   },
+   {
+    "issue": "No lookahead was found. The truncation test passes.",
+    "severity": "info",
+    "evidence": "s2_audit.py. Cuts at 2021-05-19, 2022-11-08 and 2024-03-14, both leg conventions: universe, signal, weights (including the last row before each cut) and daily returns are identical, max diff 0.0. Rolling windows are trailing only. There are no full-sample statistics. Listing-day candles never enter a traded window because a coin needs 60 days of history."
+   },
+   {
+    "issue": "Not significant after multiple testing.",
+    "severity": "major",
+    "evidence": "Deflated Sharpe probability at n=855 trials (desk) / 892 (desk plus this verifier): D12 0.26, hunter headline 1.34 -> 0.28, my literal-reading 1.20 -> 0.18."
+   },
+   {
+    "issue": "2023 is negative in every $200 configuration. The fresh-2023 results come entirely from 2024.",
+    "severity": "major",
+    "evidence": "s3_design.py: 2023 calendar-year return is -2% to -12% in all 10 daily configs. D12 2023 is -4%; D12 fresh-2023 run: 2023 -4%, 2024 +82%."
+   },
+   {
+    "issue": "The signal decays fast. It must be rebalanced daily and must never run on a signal more than 1 day old.",
+    "severity": "major",
+    "evidence": "D12: lag1 1.00, lag2 0.22. Literal quintile book: lag1 0.84, lag2 0.58. Weekly rebalance (D11): full 0.46, lag1 -0.31 ($200 -> $82). 2-day rebalance (D10): 0.80."
+   },
+   {
+    "issue": "Fixed name counts per side show how much depends on the exact count. The best $200 rules are the quintile-capped ones, which are also the best convention from step 1.",
+    "severity": "major",
+    "evidence": "Full-period SR: k=8 books 0.85-0.89 (2021 -14% to -26%), k=6 books 1.01-1.03, kq books 1.32-1.35. D5 vs D7 differ only in the count rule (4 vs 3 names in 2020; 6 vs 5-7 in 2021) and 2021 swings +21% vs +60%."
+   },
+   {
+    "issue": "The plateau is weaker than claimed in my reimplementation, and the best year (2020) comes from a very thin book.",
+    "severity": "minor",
+    "evidence": "Own windows 10/20/30/45/60/90: 0.66/1.22/1.20/1.10/0.59/0.05 (the hunter reports 1.52 at n45). In 2020 the hunter convention holds 4.1 long / 3.1 short on average (minimum 2/1)."
+   },
+   {
+    "issue": "Part of the edge sits in the least liquid universe names. On top of that, the universe is selection-biased: only coins listed on HYPE in 2026, applied back to 2020.",
+    "severity": "minor",
+    "evidence": "s5_universe.py: HYPE-list top 50 gives SR 1.34; top 40 gives 1.21, with fresh-2023 dropping from 1.37 to 1.07 and 2024 from +78% to +53%."
+   },
+   {
+    "issue": "A late cron run is harmless.",
+    "severity": "info",
+    "evidence": "Execution 1h after the daily close: SR 1.20 (literal) / 1.32 (hunter convention), unchanged. 2h: 1.14/1.29. 4h: 1.06/1.19."
+   },
+   {
+    "issue": "Whether the short leg carries the edge depends on the leg convention. Raw legs are not market-neutral.",
+    "severity": "info",
+    "evidence": "Excess Sharpe vs equal-weight universe: hunter convention long 0.95-0.99 / short 1.70; literal reading long 1.09 / short 1.31. Raw legs: long-only 1.33, short-only -0.69."
+   }
+  ],
+  "recommendation": "Forward-test only with the frozen spec below (D12 with the universe ranked inside the HYPE list), as paper or a $200 live test. Treat the realistic forward Sharpe as about 0.4-0.8, not 1.3.\n\nBefore going live:\n(1) Freeze the leg-count rule exactly as written. One name per side moves the backtest Sharpe by up to 0.3.\n(2) Rebalance daily. Any day the signal is more than 1 day old, go flat.\n(3) Drop the stale-data artefact from claims. The honest IS range is 1.08-1.41 frictionless and 1.32 for $200 D12.\n(4) Watch 2023-like regimes. Every config lost in 2023.\n\nDo not scale beyond about $5-10k without a slippage study: names ranked 41-50 by liquidity carry part of the edge.",
+  "report_path": "C:\\Crypto data\\backtest data and more\\alpha_20261024\\verify_r2\\pkcc_impl\\REPORT.md",
+  "prob_forward_sharpe_gt_0_5": 0.38,
+  "proposed_spec": "PKCC30-200 v1 (frozen 2026-10-24, verifier pkcc_impl).\n\nVENUE: Hyperliquid USDC perps, start equity 200 USDC. Margin: CROSS, per-asset leverage set to 3x for headroom only. Book gross is 1.0x equity, so effective account leverage is about 1.0. Assets that are isolated-only on HYPE: isolated 2x. No stop-loss or take-profit orders.\n\nSYMBOLS: the frozen list of 92 rows in alpha_20261024/hype_map.csv that have a HYPE name. No additions.\n\nJOB: GitHub Actions cron daily at 00:07 UTC (any start 00:05-01:00 UTC is fine). For each symbol pull HYPE candleSnapshot interval=1d, the last 70 COMPLETED bars (bar open 00:00 UTC; drop the in-progress bar). Fields used: h, l, c, v.\n\nUNIVERSE at day t (the bar that just closed):\n- at least 60 completed HYPE daily candles;\n- a day-t candle is present;\n- dqv = median of v*c over the last 30 days (at least 15 obs); rank descending among eligible symbols; keep rank <= 50.\n\nSIGNAL:\n- Per day d: pk_d = (ln(h_d/l_d))^2/(4 ln 2); cc_d = (ln(c_d/c_{d-1}))^2. c_{d-1} is the previous day's close; if it is missing, day d is excluded from both sums.\n- ratio = sqrt( mean(pk) / mean(cc) ) over the joint observations in the last 30 days; require at least 24 obs.\n- Drop the name if mean(cc) == 0 or ratio is not finite.\n- N = number of universe names with a valid ratio.\n\nSIZE:\n- E = account equity (USDC, marked to market) at run time.\n- k = min(floor(E*1.0/2/12.5), floor(0.2*N), floor(N/4)).\n- If k < 3, target flat for all symbols.\n- At E = 200: k = 8, so 16 positions of 12.50 USDC. Below E = 75, k < 3 and the book goes flat.\n\nSELECTION: sort valid names by ratio ascending (ties broken by symbol A-Z). LONG the k lowest ratio, SHORT the k highest ratio. There is no persistence state; the book is rebuilt every day.\n\nWEIGHTS: each long +E/(2k) notional, each short -E/(2k). Gross 1.0, dollar-neutral, equal weight.\n\nORDERS:\n- Names leaving the book: reduce-only market close, any size.\n- Other names: delta = target - current notional. Send a market/IOC order only if |delta| >= 10 USDC; otherwise leave the position.\n- Send closes and reductions before opens.\n- Rebalance every day; no band, no weekly mode.\n- If a run is missed, the next run rebalances normally. Never trade on a signal older than 1 day: lag-2 IS Sharpe is 0.22.\n\nCOST ASSUMPTION: 0.065% per side plus hourly funding charged.\n\nOPERATIONAL GUARD (not backtested): halt and review if equity falls below 60% of peak (IS max DD -29%).\n\nIS REFERENCE (2020-03..2024-12, $200, account_sim): SR 1.32-1.34, $200 -> $1094-1129, MDD -29%. Fresh $200 on 2023-01-01: SR 1.37, $347, MDD -24%. 2x cost 1.10; lag1 1.00; 2023 calendar year -2% to -4%."
+ }
+]

@@ -1,0 +1,8 @@
+corr BTC 0.026 corr xsmom14 0.074
+alpha ann 0.330  NW t 2.83 (vs xsmom14)
+DSR n=95: 0.600
+DSR n=300: 0.439
+DSR n=855: 0.313
+DSR n=900: 0.307
+state +1: corr BTC 0.13
+state -1: corr BTC -0.16
