@@ -296,7 +296,7 @@ Kesimpulan:
 
 Catatan lain dari repo tersebut:
 - **Tidak bertentangan dengan FCL.** Temuan mereka "funding 24 jam tinggi → return 48 jam lebih tinggi" adalah efek jangka pendek. Di riset kita, FCL dengan window 1–3 hari juga lemah; edge FCL ada di funding **persisten 14 hari**.
-- Logger mereka (`oi_logs/`, Gate.io `contract_stats` per jam sejak 2026-08-23, termasuk `last_funding_rate`) adalah funding **Gate.io**, bukan Binance. Data ini belum diuji sebagai sinyal; ingat bahwa funding HYPE sebagai sinyal gagal. Potensinya hanya sebagai sumber cadangan kalau `predictedFundings` HYPE berhenti, dan harus divalidasi dulu.
+- Logger mereka (`oi_logs/`, Gate.io `contract_stats` per jam sejak 2026-08-23, termasuk `last_funding_rate`) adalah funding **Gate.io**, bukan Binance. Sudah divalidasi 25 Okt 2026 sebagai cadangan sinyal (§9): korelasi ranking F14 dengan Binance hanya 0,59–0,61, lebih rendah dari arsip premium index Binance (0,77). **Tidak dipakai sebagai cadangan.**
 
 ---
 
@@ -327,6 +327,16 @@ Catatan lain dari repo tersebut:
     | Forward 2025–26 | 0,81 / 0,69 | 64% | 76% |
 
     Backtest dengan sinyal 100% arsip (skenario feed putus > 14 hari): forward HYPE $373 / Sharpe 2,33 / DD −6,6% → $293 / 1,19 / −12%; dengan arsip telat 2 hari $285 / 1,08 / −12%. IS 1,64 → 1,81 (telat 2 hari: 1,53). Versi premium berbobot waktu (seperti Binance) tidak lebih baik (`archive_signal_study_weighted.*`).
+  - Pembanding Gate.io (`research/alpha_20261024/stats/gate_signal_study*.py/.json`): funding Gate dari logger repo Crypto-Funding-Strategy (`oi_logs/`, per jam sejak 2026-07-12), dibandingkan di 66 hari yang sama (27 Jul → 1 Okt 2026):
+
+    | Sumber vs F14 Binance settled | Spearman rata-rata / hari terburuk 10% | Koin short top-8 sama | Koin long bottom-8 sama |
+    |---|---|---|---|
+    | Arsip premium index Binance | **0,77** / 0,65 | **69%** | 74% |
+    | Arsip, telat 2 hari | 0,76 / 0,64 | 66% | 73% |
+    | Gate.io (rate di jam settlement) | 0,59 / 0,51 | 45% | 65% |
+    | Gate.io (rata-rata per jam) | 0,61 / 0,53 | 52% | 70% |
+
+    Gate lebih buruk dari arsip, terutama di sisi short, dan datanya terlalu pendek untuk backtest. Paling jauh jadi lapis ketiga kalau data.binance.vision juga mati; belum diimplementasikan. Catatan: korelasi arsip di jendela terbaru ini (0,77) lebih rendah dari rata-rata forward (0,81).
   - Kesimpulan: **layak sebagai cadangan sementara, bukan pengganti.** Putus beberapa hari hanya mengganti sebagian jendela 14 hari, jadi dampaknya jauh lebih kecil. Putus > 2 minggu: ekspektasi Sharpe ±1, putuskan lanjut atau `mode: off`.
 - **Venue: HYPE.** Binance kena geoblock dari jaringan user dan dari runner GitHub di AS, jadi bot Binance justru butuh VPS. Hasil forward FCL hampir sama ($373 di HYPE vs $382 di Binance).
 

@@ -1,0 +1,12 @@
+{
+ "gate_hourlyavg_vs_binance": {
+  "window": "2026-07-27..2026-10-01",
+  "days": 66,
+  "coins_avg": 39.6,
+  "spearman_mean": 0.605,
+  "p10": 0.528,
+  "min": 0.399,
+  "overlap_short8": 0.515,
+  "overlap_long8": 0.697
+ }
+}

@@ -1,0 +1,42 @@
+{
+ "gate_vs_binance": {
+  "window": "2026-07-27..2026-10-01",
+  "days": 66,
+  "coins_avg": 39.6,
+  "spearman_mean": 0.586,
+  "p10": 0.507,
+  "min": 0.376,
+  "overlap_short8": 0.451,
+  "overlap_long8": 0.652
+ },
+ "archive_vs_binance_same_window": {
+  "window": "2026-07-27..2026-10-01",
+  "days": 66,
+  "coins_avg": 42.2,
+  "spearman_mean": 0.772,
+  "p10": 0.653,
+  "min": 0.613,
+  "overlap_short8": 0.689,
+  "overlap_long8": 0.742
+ },
+ "archive_lag2_vs_binance_same_window": {
+  "window": "2026-07-27..2026-10-01",
+  "days": 66,
+  "coins_avg": 42.2,
+  "spearman_mean": 0.755,
+  "p10": 0.64,
+  "min": 0.592,
+  "overlap_short8": 0.659,
+  "overlap_long8": 0.725
+ },
+ "gate_vs_archive": {
+  "window": "2026-07-27..2026-10-01",
+  "days": 66,
+  "coins_avg": 39.6,
+  "spearman_mean": 0.503,
+  "p10": 0.352,
+  "min": 0.259,
+  "overlap_short8": 0.46,
+  "overlap_long8": 0.572
+ }
+}
