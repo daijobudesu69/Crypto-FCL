@@ -477,7 +477,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 | Apa | Lokasi |
 |---|---|
 | Bot, state, workflow | `C:\Crypto data\Crypto-FCL` / GitHub `daijobudesu69/Crypto-FCL` |
-| Dokumen ini | `docs/FCL_HANDOVER.md` |
+| Dokumen ini | `docs/PROJECT CRYPTO - FCL.md` |
 | Arsip riset (kode + hasil kecil) | `research/alpha_20261024/` di repo ini |
 | Riset yang bisa dijalankan (dengan cache 313 MB) | `C:\Crypto data\backtest data and more\alpha_20261024\` |
 | Data lake | `C:\Crypto data\backtest data and more\data\` (update: `scripts/update_all.sh`) |
@@ -494,7 +494,38 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 
 ---
 
-## 15. Glosarium
+## 15. Grafik
+
+### Forward $200: FCL, CHOP-30, DISP7, BTC, EW alt
+![](../research/alpha_20261024/report_assets/fwd_equity_200usd.png)
+
+### Forward FCL vs CHOP-30 vs RNT vs BTC
+![](../research/alpha_20261024/report_assets/cmp_fwd_equity_rnt.png)
+
+### Fat tail vs bell curve + QQ plot
+![](../research/alpha_20261024/report_assets/fat_tails_bell_curve.png)
+
+### Uji 1: t-test
+![](../research/alpha_20261024/report_assets/test1_ttest.png)
+
+### Uji 2: bootstrap
+![](../research/alpha_20261024/report_assets/test2_bootstrap.png)
+
+### Uji 3: permutasi
+![](../research/alpha_20261024/report_assets/test3_permutation.png)
+
+### Uji 4: deflated Sharpe
+![](../research/alpha_20261024/report_assets/test4_deflated_sharpe.png)
+
+### CHOP-30 IS $200
+![](../research/alpha_20261024/report_assets/chop_is_equity_200usd.png)
+
+### CHOP-30 return bulanan forward
+![](../research/alpha_20261024/report_assets/chop_fwd_monthly.png)
+
+---
+
+## 16. Glosarium
 
 | Istilah | Arti |
 |---|---|
