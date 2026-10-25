@@ -228,3 +228,53 @@ def test_notify_without_telegram_writes_actions_annotation(monkeypatch, capsys):
     assert notify.send_now("🚨 <b>FCL</b> 50% putus\nbaris dua")
     line = [x for x in capsys.readouterr().out.splitlines() if x.startswith("::notice")][0]
     assert line.endswith("::🚨 FCL 50%25 putus%0Abaris dua")
+
+
+def _tmp_control(monkeypatch, tmp_path):
+    p = tmp_path / "control_bot.yaml"
+    p.write_text(control.render("paper"))
+    monkeypatch.setattr(control, "PATH", str(p))
+    monkeypatch.setattr(control, "CACHE", str(tmp_path / "control_cache.yaml"))
+    return p
+
+
+def test_feed_down_14_days_flattens_and_switches_mode_off(monkeypatch, tmp_path):
+    from fclbot import bootstrap
+    p = _tmp_control(monkeypatch, tmp_path)
+    fills = []
+    monkeypatch.setattr(bootstrap, "fill", lambda *a, **k: fills.append(a) or (0, []))
+    now = dt.datetime(2026, 11, 10, 6, 0, tzinfo=UTC)
+    cfg, coins, _ = _cycle_setup(now)
+    st = paper.load(200.0)
+    paper.rebalance(st, {coins[0]: 0.25, coins[1]: -0.25}, {coins[0]: 100.0, coins[1]: 100.0}, 0.0, 10.0, now)
+    paper.save(st)
+    store.save_json("feed.json", {"down_since": "2026-10-27T05:00:00+00:00", "alert_utc": "2026-11-10T03:00:00+00:00"})
+    ctx = _ctx(cfg, FakeInfo(coins, pf={}), now)
+    jobs.run(ctx)
+    assert store.load_json("paper.json")["positions"] == {}
+    assert control.read((str(p),)).mode == "off" and "mode OFF" in _texts(ctx)
+    assert store.load_json("feed.json")["auto_off_utc"] and store.read("equity")[-1]["event"] == "auto_off"
+    assert fills == []                                                                    # langsung off, tanpa isi arsip
+    ctx = jobs.Ctx(cfg=cfg, info=FakeInfo(coins, pf={}), ctrl=control.read((str(p),)), outbox=notify.Outbox(now), now=now)
+    assert jobs.run(ctx) == {"snapshot": None, "daily": False, "errors": []}              # off: tidak melakukan apa-apa
+
+
+def test_resume_after_auto_off_restarts_countdown_and_backfills(monkeypatch, tmp_path):
+    from fclbot import bootstrap
+    days = []
+    monkeypatch.setattr(bootstrap, "premium", lambda base, sym, day, session=None: days.append(day) or {})
+    _tmp_control(monkeypatch, tmp_path)
+    now = dt.datetime(2026, 11, 12, 6, 0, tzinfo=UTC)
+    cfg, coins, pf = _cycle_setup(now)
+    old = {"down_since": "2026-10-27T05:00:00+00:00", "auto_off_utc": "2026-11-10T06:00:00+00:00", "archive_days": ["2026-11-01"]}
+    store.save_json("feed.json", dict(old))
+    jobs.run(_ctx(cfg, FakeInfo(coins, pf={}), now))                                     # feed masih mati
+    fd = store.load_json("feed.json")
+    assert fd["down_since"] == now.isoformat(timespec="seconds") and "auto_off_utc" not in fd
+    assert fd["backfill"]["since"] == "2026-10-28T06:00:00+00:00"
+    assert control.read((control.PATH,)).mode == "paper"
+    assert dt.date(2026, 10, 28) in days and dt.date(2026, 11, 1) not in days            # celah lama diisi dari arsip
+    store.save_json("feed.json", dict(old))
+    jobs.run(_ctx(cfg, FakeInfo(coins, pf=pf), now))                                     # feed sudah pulih
+    fd = store.load_json("feed.json")
+    assert "down_since" not in fd and fd["ok_utc"] and fd["backfill"]

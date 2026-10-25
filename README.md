@@ -73,7 +73,9 @@ ci.yml         tes offline
 - Mark harga, stop short, dan funding HYPE tetap jalan; satu kali gagal hanya dicatat di log.
 - Putus ≥ 8 jam: alarm (tiap 6 jam), siklus dihitung error (run Actions merah), dan ledger diisi otomatis dari arsip premium index Binance (`fclbot/bootstrap.py`, tiap 6 jam, maks 5 hari per percobaan). Arsip satu hari baru terbit 1–2 hari kemudian, jadi beberapa hari terakhir F14 bolong; syarat cakupan 70% menahan celah ±4 hari.
 - Setelah feed pulih, celahnya tetap diisi dari arsip begitu terbit (`state/feed.json` → `backfill`).
-- Celah > 15 hari: `gh workflow run bootstrap.yml -f days=16`.
+- **Putus ≥ 14 hari** (sinyal sudah 100% arsip, Sharpe forward ±1,1 vs 2,3): semua posisi ditutup, `control/bot.yaml` diganti ke `mode: off` (di-commit watcher), dan alarm dikirim. Bot berhenti merekam dan trading.
+- Menyalakan lagi setelah feed pulih: `gh workflow run control.yml -f mode=paper`. Hitungan putus mulai dari nol dan 15 hari terakhir diisi dari arsip, jadi F14 tidak perlu menunggu ±10 hari rekaman baru.
+- Celah > 15 hari tanpa bot: `gh workflow run bootstrap.yml -f days=16`.
 - Funding Gate.io (logger repo Crypto-Funding-Strategy) sudah diuji sebagai alternatif: korelasi ranking F14 0,59–0,61 vs arsip Binance 0,77 di 66 hari yang sama, jadi tidak dipakai (`research/alpha_20261024/stats/gate_signal_study.py`).
 
 **Pengaman data lain:** koin yang candle terakhirnya lebih tua dari koin lain (delisting HYPE) tidak masuk universe. Posisi yang koinnya hilang dari `allMids` 3 siklus berturut-turut ditutup di harga terakhir. Kalau > 10% candle gagal diambil, rebalance ditunda ke siklus berikutnya, paling lama 4 jam setelah jadwal.

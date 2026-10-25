@@ -3,13 +3,15 @@
 Kegagalan sumber funding (predictedFundings HYPE) tidak boleh menghentikan mark dan stop.
 Kalau feed BinPerp putus >= FEED_ALERT_H jam, bot memberi alarm dan mengisi ledger dari
 arsip premium index Binance (fclbot/bootstrap.py), supaya F14 tetap punya cakupan.
+Putus >= FEED_OFF_DAYS hari: sinyal sudah 100% arsip (Sharpe forward ±1,1 vs 2,3), jadi semua
+posisi ditutup dan control/bot.yaml diganti ke mode off. Menyalakan lagi: control.yml mode=paper.
 """
 from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
 
-from . import bootstrap, ledger, notify, paper, store, strategy
+from . import bootstrap, control, ledger, notify, paper, store, strategy
 
 FEED = "feed.json"
 FEED_MIN_SHARE = 0.5      # snapshot sehat = BinPerp ada untuk >= 50% koin coins.csv
@@ -19,6 +21,7 @@ ARCHIVE_EVERY_H = 6
 ARCHIVE_MAX_DAYS = 5      # hari arsip per percobaan, supaya satu siklus tetap < 15 menit
 CANDLE_FAIL_MAX = 0.10    # > 10% koin gagal diambil candle-nya -> rebalance ditunda ke siklus berikut
 CANDLE_RETRY_H = 4        # ...paling lama 4 jam setelah jadwal, lalu jalan dengan data yang ada
+FEED_OFF_DAYS = 14        # feed putus selama satu jendela F14 penuh -> tutup semua posisi + mode off
 
 
 @dataclass
@@ -71,10 +74,19 @@ def run(ctx: Ctx) -> dict:
                            f"posisi ditutup di harga terakhir")
         paper.funding(st, info, now)
 
-    if feed.get("down_since") and _hours(now, feed["down_since"]) >= FEED_ALERT_H:
-        _archive_fill(ctx, feed, feed["down_since"], now.isoformat())
-    elif feed.get("backfill"):
-        _archive_fill(ctx, feed, feed["backfill"]["since"], feed["backfill"]["until"])
+    down_h = _hours(now, feed["down_since"]) if feed.get("down_since") else 0.0
+    if down_h >= FEED_OFF_DAYS * 24:
+        _auto_off(ctx, st, feed, mids if mids is not None else (info.all_mids() if st["positions"] else {}), down_h)
+        return out
+
+    bf = feed.get("backfill")
+    if down_h >= FEED_ALERT_H:
+        since = feed["down_since"]
+        if bf and dt.datetime.fromisoformat(bf["since"]) < dt.datetime.fromisoformat(since):
+            since = bf["since"]
+        _archive_fill(ctx, feed, since, now.isoformat())
+    elif bf:
+        _archive_fill(ctx, feed, bf["since"], bf["until"])
 
     if rebalance_due(cfg, now, st.get("last_rebalance_day")):
         out["daily"] = _daily(ctx, st)
@@ -93,6 +105,14 @@ def _feed_health(ctx: Ctx, snap: dict | None, out: dict) -> dict:
     backfill (celah yang masih diisi dari arsip setelah feed pulih)."""
     cfg, now = ctx.cfg, ctx.now
     fd = store.load_json(FEED, {}) or {}
+    if fd.get("auto_off_utc"):
+        # Siklus ini jalan lagi (user menyalakan mode paper setelah mode off otomatis): hitungan putus
+        # mulai dari nol, dan 15 hari terakhir diisi dari arsip supaya F14 tidak menunggu 10 hari.
+        print(f"[feed] dinyalakan lagi setelah mode off otomatis {fd['auto_off_utc']}")
+        fd = {"archive_days": fd.get("archive_days", []),
+              "backfill": {"since": (now - dt.timedelta(days=cfg.strategy["funding_days"] + 1)).isoformat(timespec="seconds"),
+                           "until": now.isoformat(timespec="seconds")}}
+        store.save_json(FEED, fd)
     n = len(snap or {})
     if snap is not None and n >= FEED_MIN_SHARE * len(cfg.coins):
         if fd.get("down_since"):
@@ -126,6 +146,25 @@ def _feed_health(ctx: Ctx, snap: dict | None, out: dict) -> dict:
             fd["alert_utc"] = now.isoformat(timespec="seconds")
     store.save_json(FEED, fd)
     return fd
+
+
+def _auto_off(ctx: Ctx, st: dict, fd: dict, mids: dict, down_h: float) -> None:
+    """Feed putus satu jendela F14 penuh: tutup semua posisi, lalu control/bot.yaml -> mode off."""
+    cfg, now = ctx.cfg, ctx.now
+    n = len(st["positions"])
+    paper.flatten(st, mids, cfg.paper["cost_per_side"], now, f"feed funding putus {down_h / 24:.0f} hari: mode off otomatis")
+    snap = paper.snapshot(st)
+    store.append("equity", {"time_utc": now.isoformat(timespec="seconds"), "event": "auto_off", **snap})
+    st["last_equity_hour"] = now.strftime("%Y-%m-%dT%H")
+    paper.save(st)
+    control.write("off")
+    fd["auto_off_utc"] = now.isoformat(timespec="seconds")
+    store.save_json(FEED, fd)
+    ctx.outbox.add(f"🛑 <b>FCL — mode OFF otomatis</b>: funding Binance via HYPE putus sejak {notify.wib(fd['down_since'])} "
+                   f"({down_h / 24:.0f} hari). {n} posisi ditutup, ekuitas <b>{notify.usd(snap['equity'])}</b> USD.\n"
+                   f"Bot berhenti merekam dan trading. Kalau feed sudah pulih, nyalakan lagi:\n"
+                   f"<code>gh workflow run control.yml -f mode=paper</code>")
+    print(f"[feed] putus {down_h:.0f} jam: {n} posisi ditutup, mode off")
 
 
 def _archive_fill(ctx: Ctx, fd: dict, since: str, until: str) -> int:

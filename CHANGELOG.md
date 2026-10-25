@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-10-25 — infra v1.0.2 (aturan strategi tidak berubah)
+- Feed BinPerp putus ≥ 14 hari: semua posisi paper ditutup, `control/bot.yaml` → `mode: off` (di-commit `save_state.sh`), alarm. Setelah dinyalakan lagi, hitungan putus mulai dari nol dan 15 hari terakhir diisi dari arsip.
+- 2 tes baru (17 total).
+
 ## 2026-10-25 — infra v1.0.1 (aturan strategi tidak berubah)
 - Gagal `predictedFundings` tidak lagi menghentikan mark, stop short, dan funding HYPE.
 - Feed BinPerp putus ≥ 8 jam: alarm, run dihitung error, dan ledger diisi otomatis dari arsip premium index Binance (`fclbot/bootstrap.py`); celah diisi juga setelah feed pulih.

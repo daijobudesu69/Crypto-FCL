@@ -120,6 +120,21 @@ def close_missing(st: dict, mids: dict, cost: float, now: dt.datetime) -> list:
     return closed
 
 
+def flatten(st: dict, mids: dict, cost: float, now: dt.datetime, reason: str) -> int:
+    """Tutup semua posisi di harga mid (atau harga terakhir kalau mid tidak ada)."""
+    n = 0
+    for coin, pos in list(st["positions"].items()):
+        px = mids.get(coin) or pos["last_px"]
+        pnl = pos["qty"] * (px - pos["last_px"])
+        st["equity"] += pnl
+        st["price_pnl_cum"] += pnl
+        _fill(st, now.date().isoformat(), coin, -pos["qty"], px, "close", reason, cost, now)
+        del st["positions"][coin]
+        n += 1
+    st["peak"] = max(st["peak"], st["equity"])
+    return n
+
+
 def rebalance(st: dict, weights: dict, mids: dict, cost: float, min_order: float, now: dt.datetime) -> int:
     day = now.date().isoformat()
     eq = st["equity"]

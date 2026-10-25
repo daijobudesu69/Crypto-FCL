@@ -1,7 +1,8 @@
 """Kendali mode bot, dibaca SETIAP siklus dari control/bot.yaml (pola RNT).
 
 mode:
-  off    tidak melakukan apa-apa (perekaman funding juga berhenti)
+  off    tidak melakukan apa-apa (perekaman funding juga berhenti). Ditulis otomatis oleh
+         jobs._auto_off kalau feed funding Binance putus >= 14 hari (posisi ditutup dulu).
   paper  rekam funding + buku paper (DEFAULT)
 Mode live/manage/flatten disiapkan setelah wallet HYPE siap. Sampai itu, nilai tersebut
 diperlakukan sebagai paper dan dilaporkan sebagai masalah.
@@ -53,6 +54,17 @@ def read(paths=None) -> Control:
         c.problem = f"mode '{c.mode}' tidak dikenal; dipakai paper"
         c.mode = "paper"
     return c
+
+
+def write(mode: str) -> None:
+    """Tulis control/bot.yaml. Salinan origin (CACHE) ikut ditimpa kalau ada, supaya siklus berikutnya
+    di watcher yang sama langsung memakainya; save_state.sh yang meng-commit file ini."""
+    text = render(mode)
+    os.makedirs(os.path.dirname(PATH), exist_ok=True)
+    for p in (PATH, CACHE):
+        if p == PATH or os.path.exists(p):
+            with open(p, "w", encoding="utf-8", newline="\n") as fh:
+                fh.write(text)
 
 
 def render(mode: str) -> str:

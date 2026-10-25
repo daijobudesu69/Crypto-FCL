@@ -337,7 +337,7 @@ Catatan lain dari repo tersebut:
     | Gate.io (rata-rata per jam) | 0,61 / 0,53 | 52% | 70% |
 
     Gate lebih buruk dari arsip, terutama di sisi short, dan datanya terlalu pendek untuk backtest. Paling jauh jadi lapis ketiga kalau data.binance.vision juga mati; belum diimplementasikan. Catatan: korelasi arsip di jendela terbaru ini (0,77) lebih rendah dari rata-rata forward (0,81).
-  - Kesimpulan: **layak sebagai cadangan sementara, bukan pengganti.** Putus beberapa hari hanya mengganti sebagian jendela 14 hari, jadi dampaknya jauh lebih kecil. Putus > 2 minggu: ekspektasi Sharpe ±1, putuskan lanjut atau `mode: off`.
+  - Kesimpulan: **layak sebagai cadangan sementara, bukan pengganti.** Putus beberapa hari hanya mengganti sebagian jendela 14 hari, jadi dampaknya jauh lebih kecil. Putus ≥ 14 hari: ekspektasi Sharpe ±1, jadi bot **otomatis menutup semua posisi dan ganti ke `mode: off`** (keputusan user 25 Okt 2026). Nyalakan lagi dengan `gh workflow run control.yml -f mode=paper`.
 - **Venue: HYPE.** Binance kena geoblock dari jaringan user dan dari runner GitHub di AS, jadi bot Binance justru butuh VPS. Hasil forward FCL hampir sama ($373 di HYPE vs $382 di Binance).
 
 ---
@@ -374,7 +374,7 @@ tools/
   control.yml    manual: mode
   bootstrap.yml  manual: isi ulang ledger
   ci.yml         pytest saat push (kecuali state/, md, research/)
-tests/           15 tes offline (FakeInfo)
+tests/           17 tes offline (FakeInfo)
 research/        arsip riset (tanpa cache/parquet besar) + 2 laporan
 docs/            dokumen ini
 state/           ditulis bot (lihat state/README.md)
@@ -448,6 +448,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 | Watcher mati / runs.csv basi | `state/runs.csv` (baris terakhir), Actions → FCL bot | Watchdog menyalakan watcher otomatis. Manual: `gh workflow run bot.yml --repo daijobudesu69/Crypto-FCL -f mode=loop` |
 | Run "cancelled" di daftar Actions | Normal: concurrency group `fcl-state` hanya menyimpan 1 run antre; yang antre lebih lama dibatalkan | Tidak perlu tindakan selama ada run `in_progress` |
 | Tidak ada baris `predicted` baru | `state/funding_pending.json` (`seen_utc` terbaru), `state/feed.json` (`down_since`), log siklus | Cek API: `predictedFundings` masih memuat `BinPerp`? Kalau format berubah, perbaiki `hype.predicted_fundings`. Sejak 25 Okt 2026: putus ≥ 8 jam → alarm + isi otomatis dari arsip Binance (`fclbot/bootstrap.py`); mark dan stop tetap jalan |
+| Mode berubah sendiri jadi `off` | `state/feed.json` (`auto_off_utc`, `down_since`), `state/equity.csv` event `auto_off` | Feed BinPerp putus ≥ 14 hari: posisi ditutup dan mode off otomatis. Cek `predictedFundings` HYPE; kalau sudah pulih: `gh workflow run control.yml -f mode=paper` (15 hari terakhir diisi dari arsip, hitungan putus mulai dari nol) |
 | "rebalance ditunda" | Log `[daily] ditunda`: > 10% candle gagal | Dicoba ulang tiap siklus; > 4 jam setelah jadwal jalan dengan data yang ada |
 | Posisi "hilang dari HYPE" ditutup | Koin tidak ada di `allMids` 3 siklus (delisting) | Ditutup di harga terakhir; cek pengumuman HYPE untuk harga settlement sebenarnya |
 | Cakupan F14 < 70% (koin hilang dari universe) | `state/targets.csv` kolom `coverage` | Kalau bot mati > 3 hari: `gh workflow run bootstrap.yml -f days=16` (baris yang ada tidak ditimpa) |
