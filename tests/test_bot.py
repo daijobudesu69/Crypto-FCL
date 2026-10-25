@@ -278,3 +278,31 @@ def test_resume_after_auto_off_restarts_countdown_and_backfills(monkeypatch, tmp
     jobs.run(_ctx(cfg, FakeInfo(coins, pf=pf), now))                                     # feed sudah pulih
     fd = store.load_json("feed.json")
     assert "down_since" not in fd and fd["ok_utc"] and fd["backfill"]
+
+
+def test_sheets_antrean_dan_flush(tmp_path, monkeypatch):
+    from fclbot import sheets, store
+    monkeypatch.setattr(store, "STATE_DIR", str(tmp_path))
+    monkeypatch.delenv("GSHEET_SPREADSHEET_ID", raising=False)
+    store.append("stops", {"time_utc": "t", "coin": "ARB", "pnl": 1.0})
+    assert not (tmp_path / "sheets_pending.json").exists()          # tanpa secret: tidak ada antrean
+    monkeypatch.setenv("GSHEET_SPREADSHEET_ID", "x")
+    monkeypatch.setenv("GOOGLE_SERVICE_ACCOUNT_JSON", "{}")
+    store.append("stops", {"time_utc": "t2", "coin": "BNB", "pnl": 2.0})
+    store.append("runs", {"time_utc": "t"})                           # log yang tidak dimirror
+    assert list(store.load_json("sheets_pending.json")) == ["stops"]
+    calls = []
+
+    def fake(method, url, token, **kw):
+        calls.append((method, url.rsplit("/", 1)[-1][:40]))
+        return {"sheets": [{"properties": {"title": "stops"}}]}
+    monkeypatch.setattr(sheets, "_token", lambda: "tok")
+    monkeypatch.setattr(sheets, "_call", fake)
+    assert sheets.flush() == 0
+    assert store.load_json("sheets_pending.json") == {}
+    assert any("append" in c[1] for c in calls)
+    # gagal -> antrean tertahan, run tidak error
+    store.append("stops", {"time_utc": "t3", "coin": "ARB", "pnl": 3.0})
+    monkeypatch.setattr(sheets, "_call", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("HTTP 500")))
+    assert sheets.flush() == 1
+    assert len(store.load_json("sheets_pending.json")["stops"]) == 1

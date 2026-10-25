@@ -9,7 +9,7 @@ Bot **paper trading** untuk strategi FCL hasil riset Alpha Hunt 24 Okt 2026. Lap
 - Modal paper **200 USD**, eksekusi (nanti) di **HYPE (Hyperliquid)**.
 - **Tanpa VPS**: semua jalan di GitHub Actions (repo publik = menit Actions tidak terbatas).
 - **Tanpa akses Binance**: funding Binance dibaca dari API HYPE (`predictedFundings`, venue `BinPerp`).
-- Telegram, Google Sheets dan wallet HYPE **menyusul**. Sampai itu, pesan Telegram hanya dicetak di log Actions, dan catatan resmi ada di `state/`.
+- Telegram dan Google Sheets (mirror `equity`, `orders`, `stops`, `targets`) terpasang; wallet HYPE **menyusul**. Catatan resmi tetap `state/`.
 
 ## Aturan strategi (FCL v1.0, sama dengan yang di-backtest)
 
@@ -126,5 +126,5 @@ python -m pytest -q tests
 | Komponen | Yang dibutuhkan |
 |---|---|
 | Telegram | Secret repo `TELEGRAM_BOT_TOKEN` dan `TELEGRAM_CHAT_ID` (kodenya sudah siap, sama dengan RNT) |
-| Google Sheets | Mirror log `state/*.csv` seperti RNT (`sheets.py`). Belum dipasang |
+| Google Sheets | Mirror log `state/{equity,orders,stops,targets}.csv` (`fclbot/sheets.py`, antrean `state/sheets_pending.json`, dikirim tiap siklus). Tab dibuat otomatis dan diisi riwayat CSV |
 | Wallet HYPE | API wallet di subaccount khusus, mode `live/manage/flatten`, stop sebagai order trigger. Belum dipasang; mode tersebut saat ini diperlakukan sebagai `paper` |

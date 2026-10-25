@@ -4,7 +4,7 @@
   penulisan tidak boleh meninggalkan file setengah jadi.
 * CSV append-only. .gitattributes memakai merge=union untuk state/*.csv, jadi
   dua run yang menambah baris bersamaan tidak bentrok saat rebase.
-* Mirror ke Google Sheets menyusul (lihat README); CSV di state/ adalah catatan resmi.
+* Mirror ke Google Sheets lewat sheets.py (antrean, dikirim run_cycle); CSV di state/ adalah catatan resmi.
 """
 from __future__ import annotations
 
@@ -75,6 +75,9 @@ def append(log: str, row: dict, mirror: bool = True) -> None:
         if new:
             w.writeheader()
         w.writerow(clean)
+    if mirror:
+        from . import sheets
+        sheets.enqueue(log, [clean[c] for c in cols])
 
 
 def read(log: str) -> list[dict]:

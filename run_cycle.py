@@ -11,7 +11,7 @@ import sys
 import time
 import traceback
 
-from fclbot import config, control, hype, jobs, notify, store
+from fclbot import config, control, hype, jobs, notify, sheets, store
 
 QUIET_IDLE_MIN = 60     # baris "idle" di runs.csv paling sering 1x per jam
 
@@ -50,6 +50,7 @@ def main(now: dt.datetime | None = None, info=None) -> int:
             store.save_json("alerts.json", seen)
 
     pending = outbox.flush()
+    sheets.flush()
     _log_run(now, ctrl, res, errors, time.time() - t0)
     if pending:
         print(f"[cycle] {pending} pesan Telegram masih tertahan")
