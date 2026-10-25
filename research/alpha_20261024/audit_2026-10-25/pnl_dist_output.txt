@@ -1,0 +1,12 @@
+FWD ALL incl delisted              n12m= 333 ret12m p5/25/50/75/95 = 16.1/31.7/48.4/84.5/122.8  P(>0)=100% | DD12m p50/p10/worst = -25.3/-25.3/-25.3  P(DD>-15%)=29% | vol 29.5%
+                                   bulan: median 4.2%  terburuk -9.7%  %positif 74%  | worst day -4.7%
+FWD survivors                      n12m= 333 ret12m p5/25/50/75/95 = 11.2/27.0/41.7/79.4/118.0  P(>0)=100% | DD12m p50/p10/worst = -27.1/-27.1/-27.1  P(DD>-15%)=25% | vol 30.9%
+                                   bulan: median 2.7%  terburuk -10.9%  %positif 61%  | worst day -6.0%
+FWD HYPE-listed today              n12m= 333 ret12m p5/25/50/75/95 = 31.3/37.7/46.0/79.8/97.4  P(>0)=100% | DD12m p50/p10/worst = -4.7/-6.2/-6.2  P(DD>-15%)=100% | vol 15.8%
+                                   bulan: median 3.2%  terburuk -2.2%  %positif 74%  | worst day -3.1%
+IS A author (lake150,HYPE)         n12m=1401 ret12m p5/25/50/75/95 = -13.6/10.9/32.7/93.3/191.6  P(>0)=79% | DD12m p50/p10/worst = -10.8/-26.9/-26.9  P(DD>-15%)=55% | vol 21.0%
+                                   bulan: median 2.1%  terburuk -12.2%  %positif 72%  | worst day -4.4%
+IS C ALL 451 incl dead             n12m=1401 ret12m p5/25/50/75/95 = -4.1/6.6/17.6/69.1/217.7  P(>0)=90% | DD12m p50/p10/worst = -9.9/-20.6/-20.6  P(DD>-15%)=59% | vol 19.8%
+                                   bulan: median 1.7%  terburuk -13.9%  %positif 69%  | worst day -4.6%
+IS D ALL ranked keep HYPE          n12m=1401 ret12m p5/25/50/75/95 = 0.0/8.2/21.1/108.3/221.0  P(>0)=95% | DD12m p50/p10/worst = -17.5/-27.3/-27.3  P(DD>-15%)=39% | vol 23.3%
+                                   bulan: median 1.4%  terburuk -15.4%  %positif 59%  | worst day -4.5%

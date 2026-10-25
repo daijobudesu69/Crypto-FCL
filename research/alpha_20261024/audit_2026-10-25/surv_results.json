@@ -1,0 +1,90 @@
+{
+ "ALL incl delisted|cap": {
+  "end": 599.7,
+  "sharpe": 2.09,
+  "maxdd": -0.253,
+  "dead_share": 0.0307,
+  "yrs": {
+   "2024": 0.491,
+   "2025": 0.271,
+   "2026": 0.583
+  }
+ },
+ "ALL incl delisted|ter": {
+  "end": 416.0,
+  "sharpe": 1.6,
+  "maxdd": -0.27,
+  "dead_share": 0.0299,
+  "yrs": {
+   "2024": 0.295,
+   "2025": 0.092,
+   "2026": 0.471
+  }
+ },
+ "survivors only (alive at end)|cap": {
+  "end": 483.2,
+  "sharpe": 1.64,
+  "maxdd": -0.271,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.24,
+   "2025": 0.253,
+   "2026": 0.555
+  }
+ },
+ "survivors only (alive at end)|ter": {
+  "end": 405.5,
+  "sharpe": 1.57,
+  "maxdd": -0.251,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.196,
+   "2025": 0.139,
+   "2026": 0.489
+  }
+ },
+ "lake 150 only|cap": {
+  "end": 576.9,
+  "sharpe": 3.03,
+  "maxdd": -0.138,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.411,
+   "2025": 0.566,
+   "2026": 0.305
+  }
+ },
+ "lake 150 only|ter": {
+  "end": 390.8,
+  "sharpe": 2.17,
+  "maxdd": -0.145,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.165,
+   "2025": 0.367,
+   "2026": 0.226
+  }
+ },
+ "HYPE-listed only|cap": {
+  "end": 495.7,
+  "sharpe": 3.1,
+  "maxdd": -0.062,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.413,
+   "2025": 0.489,
+   "2026": 0.178
+  }
+ },
+ "HYPE-listed only|ter": {
+  "end": 358.1,
+  "sharpe": 2.3,
+  "maxdd": -0.072,
+  "dead_share": 0.0,
+  "yrs": {
+   "2024": 0.167,
+   "2025": 0.321,
+   "2026": 0.161
+  }
+ }
+}

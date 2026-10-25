@@ -18,6 +18,7 @@
 | Terverifikasi live | Rekaman funding `predicted` masuk untuk settlement 20:00 dan 00:00 UTC (136 baris). Watcher bersambung. Equity tercatat per jam |
 | Belum ada | Telegram (secret belum diisi), Google Sheets, wallet HYPE / mode live |
 | Ekspektasi jujur | Sharpe ±1–1,5, DD 15–30%. Forward Sharpe 2,3 terjadi di periode yang sangat menguntungkan |
+| Audit 25 Okt 2026 | Lolos (data asli, reproduksi persis, tanpa lookahead, edge nyata). Ekspektasi 12 bulan di $200: median **+$25–45 (+12–22%)**, DD biasa −10 s/d −17%, tahun buruk −25 s/d −27%. Lihat [AUDIT_2026-10-25.md](AUDIT_2026-10-25.md) |
 
 ---
 
@@ -271,6 +272,8 @@ Permutasi versi pertama (koin acak diacak ulang tiap hari) ternyata **tidak adil
 
 ### Uji survivorship dengan koin delisting (25 Okt 2026)
 
+> **Dikoreksi oleh audit 25 Okt 2026** ([AUDIT_2026-10-25.md](AUDIT_2026-10-25.md)): panel di bawah salah menghitung koin mati (arsip Binance mencetak harga datar dengan volume 0 setelah delisting). Yang benar ±120 delisting dengan porsi posisi ±3%, bukan 0,5%. Dari raw resmi Binance 2024-09 → 2026-07: semua koin termasuk delisting Sharpe 2,09 / DD −25%, yang hidup saja 1,64 / −27%. Koin mati tidak menurunkan return; risikonya ada di sisi long (LUNA 2022).
+
 Sumber: repo user **Crypto-Funding-Strategy** (https://github.com/daijobudesu69/Crypto-Funding-Strategy). Salinan lokal ada di `C:\Crypto data 2`, dan panelnya `C:\Crypto data 2\data\panel.parquet`:
 - 776 perp USDT Binance, **termasuk yang sudah delisting**;
 - harian 2024-08 → 2026-07;
@@ -448,7 +451,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 
 1. **Periode forward sangat ramah** (alt EW −57%; short alt yang crowded dibayar dua kali: lewat harga dan funding). Ekspektasi Sharpe 1–1,5.
 2. **DSR IS hanya 0,3–0,6** di tingkat desk (±900 config). Forward yang kuat (DSR 0,83) adalah bukti utamanya, tapi sampelnya hanya 21 bulan.
-3. **Survivorship bias:** daftar koin = yang masih hidup per 2026. Sudah diuji dengan panel 776 koin termasuk delisting (§8): Sharpe 1,33–1,60 vs 2,0–2,25 untuk koin yang masih hidup saja. Edge tetap ada, tapi angka backtest perlu dipotong ±0,6.
+3. **Survivorship bias:** daftar koin = yang masih hidup per 2026. Sudah diuji dengan panel 776 koin termasuk delisting (§8): Sharpe 1,33–1,60 vs 2,0–2,25 untuk koin yang masih hidup saja. Edge tetap ada, tapi angka backtest perlu dipotong ±0,6. Audit 25 Okt 2026 mengoreksi hitungan koin mati dan menemukan DD forward −6,6% berasal dari universe HYPE hari ini (lookahead); DD realistis −20 s/d −27% ([AUDIT_2026-10-25.md](AUDIT_2026-10-25.md)).
 4. **Konsentrasi:** di IS, top-5 koin = 53–59% PnL dan 10 hari terbaik = 40%.
 5. **Squeeze short:** coin yang di-short bisa naik 50–100% dalam sehari (DOGE 2021-01, GALA 2021-11). Mitigasi: filter momentum, stop +40%, dan k ≥ 8 nama.
 6. **Rekaman predicted vs settled** belum divalidasi (§11). Bootstrap 14 hari pertama hanya berkorelasi ranking 0,77.
@@ -490,6 +493,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 | Hasil forward | `research/alpha_20261024/final/forward_results.json`, `forward_equity.csv` |
 | Statistik lanjutan | `research/alpha_20261024/stats/analysis_results.json` |
 | Chart | `research/alpha_20261024/report_assets/*.png` |
+| Audit 25 Okt 2026 + review ekspektasi PnL | `docs/AUDIT_2026-10-25.md`, skrip `research/alpha_20261024/audit_2026-10-25/` (panel `*.pkl` hanya di lokal `backtest data and more/alpha_20261024/audit_2026-10-25/`) |
 | Strategi lain user | RNT `C:\Crypto data\Crypto-RS-Neutral & Trend`, RMF `...\Crypto-Momentum Rotations+Flush Basket`, MEX `...\Crypto-MEX` |
 
 ---

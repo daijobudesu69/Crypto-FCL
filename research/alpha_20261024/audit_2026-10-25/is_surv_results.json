@@ -1,0 +1,98 @@
+{
+ "A: author (rank lake150, keep HYPE)|cap": {
+  "end": 1143.0,
+  "sharpe": 1.82,
+  "maxdd": -0.269,
+  "sub": {
+   "20-21": 2.41,
+   "22": 1.73,
+   "23-24": 1.17
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ },
+ "A: author (rank lake150, keep HYPE)|ter": {
+  "end": 1022.0,
+  "sharpe": 1.73,
+  "maxdd": -0.235,
+  "sub": {
+   "20-21": 2.27,
+   "22": 1.83,
+   "23-24": 1.05
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ },
+ "B: lake150, no HYPE filter|cap": {
+  "end": 1171.0,
+  "sharpe": 1.9,
+  "maxdd": -0.277,
+  "sub": {
+   "20-21": 2.69,
+   "22": 1.94,
+   "23-24": 0.9
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ },
+ "B: lake150, no HYPE filter|ter": {
+  "end": 963.0,
+  "sharpe": 1.74,
+  "maxdd": -0.246,
+  "sub": {
+   "20-21": 2.45,
+   "22": 1.9,
+   "23-24": 0.8
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ },
+ "C: ALL 451 incl dead|cap": {
+  "end": 1381.0,
+  "sharpe": 2.12,
+  "maxdd": -0.206,
+  "sub": {
+   "20-21": 3.38,
+   "22": -0.05,
+   "23-24": 1.57
+  },
+  "dead_share": 0.054,
+  "dead_pnl": -85.4
+ },
+ "C: ALL 451 incl dead|ter": {
+  "end": 902.0,
+  "sharpe": 1.76,
+  "maxdd": -0.228,
+  "sub": {
+   "20-21": 2.81,
+   "22": -0.1,
+   "23-24": 1.41
+  },
+  "dead_share": 0.054,
+  "dead_pnl": -72.1
+ },
+ "D: ALL ranked, keep HYPE|cap": {
+  "end": 1157.0,
+  "sharpe": 1.67,
+  "maxdd": -0.273,
+  "sub": {
+   "20-21": 2.33,
+   "22": 0.72,
+   "23-24": 1.27
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ },
+ "D: ALL ranked, keep HYPE|ter": {
+  "end": 985.0,
+  "sharpe": 1.54,
+  "maxdd": -0.236,
+  "sub": {
+   "20-21": 2.07,
+   "22": 0.7,
+   "23-24": 1.27
+  },
+  "dead_share": 0.0,
+  "dead_pnl": 0.0
+ }
+}
