@@ -318,7 +318,16 @@ Catatan lain dari repo tersebut:
   Korelasi ranking F14 asli vs proxy: 0,937. Kesimpulan: **cron yang tidak andal tetap aman.**
 - **Bootstrap:** arsip Binance hanya menyediakan funding **bulanan**; harian tidak ada (404). Premium index 1 jam harian tersedia (`/data/futures/um/daily/premiumIndexKlines/{SYM}/1h/{SYM}-1h-{date}.zip`, terbit ±H+1).
   - Rekonstruksi: `F = P + clamp(I − P, ±0,05%)`, P = rata-rata premium dalam interval, I = 0,01% per 8 jam.
-  - Validasi September 2026: korelasi Pearson 0,94, ranking 0,77.
+  - Validasi September 2026: korelasi Pearson jumlah bulanan 0,94.
+  - Study case 25 Okt 2026 (`research/alpha_20261024/stats/archive_signal_study.py`, `.json`): F14 hasil rekonstruksi vs F14 dari funding settled asli, per hari antar koin di universe.
+
+    | Periode | Spearman rata-rata / hari terburuk 10% | Koin short top-8 sama | Koin long bottom-8 sama |
+    |---|---|---|---|
+    | IS 2020–24 | 0,90 / 0,78 | 75% | 86% |
+    | Forward 2025–26 | 0,81 / 0,69 | 64% | 76% |
+
+    Backtest dengan sinyal 100% arsip (skenario feed putus > 14 hari): forward HYPE $373 / Sharpe 2,33 / DD −6,6% → $293 / 1,19 / −12%; dengan arsip telat 2 hari $285 / 1,08 / −12%. IS 1,64 → 1,81 (telat 2 hari: 1,53). Versi premium berbobot waktu (seperti Binance) tidak lebih baik (`archive_signal_study_weighted.*`).
+  - Kesimpulan: **layak sebagai cadangan sementara, bukan pengganti.** Putus beberapa hari hanya mengganti sebagian jendela 14 hari, jadi dampaknya jauh lebih kecil. Putus > 2 minggu: ekspektasi Sharpe ±1, putuskan lanjut atau `mode: off`.
 - **Venue: HYPE.** Binance kena geoblock dari jaringan user dan dari runner GitHub di AS, jadi bot Binance justru butuh VPS. Hasil forward FCL hampir sama ($373 di HYPE vs $382 di Binance).
 
 ---
@@ -457,7 +466,7 @@ Paritas pilihan (`tools/parity_check.py`, 25 hari acak 2025–26, $200, input Bi
 3. **Survivorship bias:** daftar koin = yang masih hidup per 2026. Sudah diuji dengan panel 776 koin termasuk delisting (§8): Sharpe 1,33–1,60 vs 2,0–2,25 untuk koin yang masih hidup saja. Edge tetap ada, tapi angka backtest perlu dipotong ±0,6. Audit 25 Okt 2026 mengoreksi hitungan koin mati dan menemukan DD forward −6,6% berasal dari universe HYPE hari ini (lookahead); DD realistis −20 s/d −27% ([AUDIT_2026-10-25.md](AUDIT_2026-10-25.md)).
 4. **Konsentrasi:** di IS, top-5 koin = 53–59% PnL dan 10 hari terbaik = 40%.
 5. **Squeeze short:** coin yang di-short bisa naik 50–100% dalam sehari (DOGE 2021-01, GALA 2021-11). Mitigasi: filter momentum, stop +40%, dan k ≥ 8 nama.
-6. **Rekaman predicted vs settled** belum divalidasi (§11). Bootstrap 14 hari pertama hanya berkorelasi ranking 0,77.
+6. **Rekaman predicted vs settled** belum divalidasi (§11). Sinyal hasil rekonstruksi arsip (bootstrap 14 hari pertama, dan cadangan saat feed putus) berkorelasi ranking F14 0,81–0,90 dengan funding settled asli (§9).
 7. **Universe bot ≠ backtest** (paritas 94–96%).
 8. **Stop di paper** dicek per 10 menit dengan mid, jadi bisa lebih baik atau lebih buruk daripada trigger live.
 9. **Funding HYPE** punya komponen bunga ±11%/tahun untuk long; netral di buku dollar-neutral, dan short menerima.

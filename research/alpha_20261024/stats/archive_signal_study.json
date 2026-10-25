@@ -1,0 +1,74 @@
+{
+ "xs": {
+  "rec|IS": {
+   "days": 1473,
+   "spearman_mean": 0.897,
+   "p10": 0.777,
+   "min": 0.394,
+   "overlap_short8": 0.749,
+   "overlap_long8": 0.864
+  },
+  "rec|FWD": {
+   "days": 638,
+   "spearman_mean": 0.809,
+   "p10": 0.688,
+   "min": 0.399,
+   "overlap_short8": 0.636,
+   "overlap_long8": 0.755
+  },
+  "rec_lag2|IS": {
+   "days": 1473,
+   "spearman_mean": 0.879,
+   "p10": 0.752,
+   "min": 0.361,
+   "overlap_short8": 0.722,
+   "overlap_long8": 0.841
+  },
+  "rec_lag2|FWD": {
+   "days": 638,
+   "spearman_mean": 0.798,
+   "p10": 0.678,
+   "min": 0.372,
+   "overlap_short8": 0.625,
+   "overlap_long8": 0.746
+  }
+ },
+ "bt": {
+  "true|FWD hype": {
+   "equity_end": 373.2253,
+   "sharpe": 2.3291,
+   "maxdd": -0.0657,
+   "cagr": 0.4281
+  },
+  "true|IS binance": {
+   "equity_end": 867.8779,
+   "sharpe": 1.6374,
+   "maxdd": -0.2729,
+   "cagr": 0.3544
+  },
+  "rec|FWD hype": {
+   "equity_end": 293.4459,
+   "sharpe": 1.1883,
+   "maxdd": -0.1226,
+   "cagr": 0.2448
+  },
+  "rec|IS binance": {
+   "equity_end": 1126.8528,
+   "sharpe": 1.8086,
+   "maxdd": -0.2866,
+   "cagr": 0.4295
+  },
+  "rec_lag2|FWD hype": {
+   "equity_end": 285.088,
+   "sharpe": 1.0807,
+   "maxdd": -0.1216,
+   "cagr": 0.2244
+  },
+  "rec_lag2|IS binance": {
+   "equity_end": 867.407,
+   "sharpe": 1.5311,
+   "maxdd": -0.3326,
+   "cagr": 0.3542
+  }
+ }
+}

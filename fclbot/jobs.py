@@ -121,7 +121,8 @@ def _feed_health(ctx: Ctx, snap: dict | None, out: dict) -> dict:
             ctx.outbox.add(f"🚨 <b>FCL — funding Binance via HYPE tidak masuk</b> sejak {notify.wib(fd['down_since'])} "
                            f"({down_h:.0f} jam, {n}/{len(cfg.coins)} koin di snapshot)\n"
                            f"Sinyal F14 diisi dari arsip premium index Binance (data.binance.vision, tertinggal 1–2 hari, "
-                           f"korelasi ranking ±0,77). Cek <code>predictedFundings</code> HYPE.")
+                           f"korelasi ranking F14 ±0,81, Sharpe forward ±1,1 vs 2,3 kalau putus > 14 hari). "
+                           f"Cek <code>predictedFundings</code> HYPE.")
             fd["alert_utc"] = now.isoformat(timespec="seconds")
     store.save_json(FEED, fd)
     return fd

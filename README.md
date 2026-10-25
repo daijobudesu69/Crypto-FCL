@@ -65,7 +65,8 @@ ci.yml         tes offline
 - Uji IS: sinyal dari 1 snapshot per hari tetap memberi Sharpe 1,71. Dengan 20–40% hari terlewat, Sharpe 1,24–1,35.
 
 **Bootstrap:** arsip Binance tidak punya funding harian, jadi `tools/bootstrap_funding.py` merekonstruksi 16 hari terakhir dari arsip premium index Binance.
-- Validasi September 2026: korelasi 0,94 dengan funding asli.
+- Validasi September 2026: korelasi 0,94 dengan funding asli (jumlah bulanan).
+- Study case 25 Okt 2026: korelasi ranking F14 harian 0,81 (2025–26) / 0,90 (2020–24). Sinyal 100% arsip memberi Sharpe forward 1,1–1,2 (asli 2,33): layak sebagai cadangan sementara, bukan pengganti (`research/alpha_20261024/stats/archive_signal_study.py`).
 - Baris `bootstrap` otomatis tergantikan oleh rekaman bot (`predicted`). Setelah 14 hari, sinyal 100% dari rekaman bot.
 
 **Kalau HYPE berhenti memberi funding Binance** (`predictedFundings` error atau `BinPerp` hilang untuk > 50% koin):

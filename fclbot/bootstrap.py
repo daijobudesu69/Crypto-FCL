@@ -8,8 +8,10 @@ Binance tidak menyediakan arsip funding harian (hanya bulanan), tetapi arsip pre
 1 jam harian ada. Funding Binance dihitung dari premium index:
     F = P + clamp(I - P, -0,05%, +0,05%),   P = rata-rata premium selama interval,
     I = 0,01% per 8 jam (diskalakan ke interval funding koin).
-Validasi di data lake (September 2026, 92 koin): korelasi Pearson jumlah bulanan 0,94,
-korelasi ranking 0,77. Baris ditulis sebagai source=bootstrap; rekaman bot (predicted)
+Validasi di data lake (research/alpha_20261024/stats/archive_signal_study.py): korelasi ranking
+F14 harian antar koin vs funding settled asli 0,90 (2020-24) / 0,81 (2025-26); koin short top-8
+yang sama 75% / 64%. Sinyal 100% arsip: Sharpe forward 2,33 -> 1,08-1,19, IS 1,64 -> 1,53-1,81.
+Layak sebagai cadangan sementara, bukan pengganti. Baris ditulis sebagai source=bootstrap; rekaman bot (predicted)
 selalu menang kalau keduanya ada. Arsip satu hari baru terbit setelah hari itu selesai.
 """
 from __future__ import annotations
