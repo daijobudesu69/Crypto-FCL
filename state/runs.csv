@@ -176,3 +176,4 @@ time_utc,commit,mode,snapshot,daily,errors,duration_s
 2026-11-01T00:55:20+00:00,81ae9a6c8e,paper,settled=0 pending=91,0,,0.7
 2026-11-01T01:55:59+00:00,77a397cce7,paper,settled=0 pending=91,0,,0.5
 2026-11-01T02:56:17+00:00,77a397cce7,paper,settled=0 pending=91,0,,0.5
+2026-11-01T04:05:03+00:00,77a397cce7,paper,settled=45 pending=91,0,,4.3
